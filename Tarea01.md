@@ -84,6 +84,7 @@ _Iván Eduardo Sedeño Jiménez_
   > La ventaja de un modelo no parametrico es que al no asumir ninguna forma para los datos, se puede ajustar un modelo sin importar como sean los datos, la desventaja es que si el dataset no es representativo de la forma de los datos entonces entonces el modelo obtenido va a ser incorrecto.
 
 7. The table below provides a training data set containing six observations, three predictors, and one qualitative response variable.  
+
 Obs.|X1|X2|X3|Y  
 --|---|---|---|---  
 1 | 0 | 3 | 0 |RED  
