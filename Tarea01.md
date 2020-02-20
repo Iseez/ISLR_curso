@@ -50,8 +50,8 @@ _Iván Eduardo Sedeño Jiménez_
   curve(test_error, add = TRUE, col=5)  # test error
   legend(1,600,legend=c("bias","variance","train error","bayes error","test error"),col=1:5,lwd=1)
   dev.off()
-```
-![Ex3](ch02_ex03.png)
+  ```
+  ![Ex3](ch02_ex03.png)
 
   - b) Explain why each of the five curves has the shape displayed in part (a).
   > Bias: en __negro__, este reduce a medida que la flexibilidad aumenta, ya que no se asume la forma de los datos.  
@@ -149,7 +149,7 @@ _Iván Eduardo Sedeño Jiménez_
 • Expend : Instructional expenditure per student  
 • Grad.Rate : Graduation rate  
 Before reading the data into R, it can be viewed in Excel or a text editor.
-  * a) Use the read.csv() function to read the data into R. Call the loaded data college. Make sure that you have the directory set to the correct location for the data.
+  * a) Use the read.csv() function to read the data into R. Call the loaded data college. Make sure that you have the directory set to the correct location for the data.  
   >```r
   getwd()
   setwd("./ISLR-master/")
