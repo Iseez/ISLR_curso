@@ -350,13 +350,13 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
 
   * g) Which suburb of Boston has lowest median value of owner- occupied homes? What are the values of the other predictors for that suburb, and how do those values compare to the overall ranges for those predictors? Comment on your findings.  
   	> Suburbios con menor valor medio:  
-  |	 | crim | zn      | indus | chas | nox | rm    | age   | dis | rad    | tax | ptratio | black | lstat  | medv
+  |  | crim | zn      | indus | chas | nox | rm    | age   | dis | rad    | tax | ptratio | black | lstat  | medv
   |------|---------|-------|------|-----|-------|-------|-----|--------|-----|---------|-------|--------|-------|---|
   | 399  | 38.3518 | 0     | 18.1 | 0   | 0.693 | 5.453 | 100 | 1.4896 | 24  | 666     | 20.2  | 396.90 | 30.59 | 5 |
   | 406  | 67.9208 | 0     | 18.1 | 0   | 0.693 | 5.683 | 100 | 1.4254 | 24  | 666     | 20.2  | 384.97 | 22.98 | 5 |
   	>
-  	> Comparación con sus rangos:
-|	| crim      | zn    | indus | chas | nox   | rm     | age     | dis       | rad | tax | ptratio | black    | lstat  | medv   |
+  	> Comparación con sus rangos:  
+  |  | crim      | zn    | indus | chas | nox   | rm     | age     | dis       | rad | tax | ptratio | black    | lstat  | medv   |
 |-------|-----------|-------|-------|------|-------|--------|---------|-----------|-----|-----|---------|----------|--------|--------|
 | 0%    | 0.006320  | 0.0   | 0.46  | 0    | 0.385 | 3.5610 | 2.900   | 1.129600  | 1   | 187 | 12.60   | 0.3200   | 1.730  | 5.000  |
 | 25%   | 0.082045  | 0.0   | 5.19  | 0    | 0.449 | 5.8855 | 45.025  | 2.100175  | 4   | 279 | 17.40   | 375.3775 | 6.950  | 17.025 |
