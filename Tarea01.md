@@ -49,32 +49,31 @@ _Iván Eduardo Sedeño Jiménez_
   	>curve(bayes_error, add=TRUE, col=4)   # irreducible error
   	>curve(test_error, add = TRUE, col=5)  # test error
   	>legend(1,600,legend=c("bias","variance","train error","bayes error","test error"),col=1:5,lwd=1)  
-  	>dev.off() 
-  	```
-  	>![Ex3](ch02_ex03.png)
+  	>dev.off() ```  
+  >![Ex3](ch02_ex03.png)
 
   * b) Explain why each of the five curves has the shape displayed in part (a).
-  > Bias: en __negro__, este reduce a medida que la flexibilidad aumenta, ya que no se asume la forma de los datos.  
-  Variance: en __rojo__, este disminuye al aumentar la flexibilidad, ya que al volverse más flexible también se vuelve más sensible a los datos, por lo que cambiar el set de datos afectará mucho al modelo.  
-  Train error: en __verde__, este disminuye al aumentar la flexibilidad ya que eventualmente quedará sobreajustado.  
-  Bayes error: en __azul oscuro__ está el error irreducible, el cual es independiente del modelo.  
-  Test error: en __azul claro__, este tiene forma de "U" ya que es la relación entre la varianza y el bias.  
+  	> Bias: en __negro__, este reduce a medida que la flexibilidad aumenta, ya que no se asume la forma de los datos.  
+  	>Variance: en __rojo__, este disminuye al aumentar la flexibilidad, ya que al volverse más flexible también se vuelve más sensible a los datos, por lo que cambiar el set de datos afectará mucho al modelo.  
+  	>Train error: en __verde__, este disminuye al aumentar la flexibilidad ya que eventualmente quedará sobreajustado.  
+  	>Bayes error: en __azul oscuro__ está el error irreducible, el cual es independiente del modelo.  
+  	>Test error: en __azul claro__, este tiene forma de "U" ya que es la relación entre la varianza y el bias.  
 
 4. You will now think of some real-life applications for statistical learning.
   * a) Describe three real-life applications in which classification might be useful. Describe the response, as well as the predictors. Is the goal of each application inference or prediction? Explain your answer.
-  > 1. La identificación de distintas lineas celulares cancerigenas, en los predictores se puede tener la expresión de distintos genes y la respuesta sería la Clasificación de las lineas celulares. La meta es inferir a artir de los genes que se expresan la lineal celular que es.
-  > 2. Identificaicón de plantas a partir de sus características, los predictores serían el tipo de hojas, fruto, tallo, etc. y la respuesta ser´ía el tipo de planta. La meta sería inferir que planta es a partir de sus características.
-  > 3. Determinar si un correo electrónico es spam o no, los predictores serían el dominio de la cuenta de correo, a cuantas personas se envió ese correo, el contenido del correo electrónico. La meta sería predecir si un correo es spam o no, y la respuesta sería mandarlo a la carpeta de spam.
+  	> 1. La identificación de distintas lineas celulares cancerigenas, en los predictores se puede tener la expresión de distintos genes y la respuesta sería la Clasificación de las lineas celulares. La meta es inferir a artir de los genes que se expresan la lineal celular que es.
+  	> 2. Identificaicón de plantas a partir de sus características, los predictores serían el tipo de hojas, fruto, tallo, etc. y la respuesta ser´ía el tipo de planta. La meta sería inferir que planta es a partir de sus características.
+  	> 3. Determinar si un correo electrónico es spam o no, los predictores serían el dominio de la cuenta de correo, a cuantas personas se envió ese correo, el contenido del correo electrónico. La meta sería predecir si un correo es spam o no, y la respuesta sería mandarlo a la carpeta de spam.
 
   * b) Describe three real-life applications in which regression might be useful. Describe the response, as well as the predictors. Is the goal of each application inference or prediction? Explain your answer.  
-  > 1. Predecir la hora de llegada a un lugar, los predictores serían la distancia, la velocidad a la que se va a viajar, la velocidad del viento, temperatura, no. de paradas, hora de salida, la respuesta sería obtener la hora a la que se llega a un lugar, y la meta es predecirla.
-  > 2. Predecir la hora a la que va a ser la luna desde un lugar específico, los predictores serían la altitud, latidud, día, estación del año, la respuesta sería la hora a la que srñia visible la luna y la meta sería predecir lo que se quiere por respeusta.
-  > 3. Determinar que factores son los más importantes que determinan el precio de una casa, los predictores son el nuémero de escuelas cercanas, distancia al centro comercial más cercano, colonia, etc. La respuesta serían los coeficientes de los predictores y la meta es inferir cuales de los predictores son los más influyentes.
+  	> 1. Predecir la hora de llegada a un lugar, los predictores serían la distancia, la velocidad a la que se va a viajar, la velocidad del viento, temperatura, no. de paradas, hora de salida, la respuesta sería obtener la hora a la que se llega a un lugar, y la meta es predecirla.
+  	> 2. Predecir la hora a la que va a ser la luna desde un lugar específico, los predictores serían la altitud, latidud, día, estación del año, la respuesta sería la hora a la que srñia visible la luna y la meta sería predecir lo que se quiere por respeusta.
+  	> 3. Determinar que factores son los más importantes que determinan el precio de una casa, los predictores son el nuémero de escuelas cercanas, distancia al centro comercial más cercano, colonia, etc. La respuesta serían los coeficientes de los predictores y la meta es inferir cuales de los predictores son los más influyentes.
 
   * c) Describe three real-life applications in which cluster analysis might be useful.
-  > 1. Identificar personas con la misma ideología política.
-  > 2. Identificar personas más influyentes de un grupo social.
-  > 3. Agrupar zonas geográficas segun su aporte a la economñia de un país.
+  	> 1. Identificar personas con la misma ideología política.
+  	> 2. Identificar personas más influyentes de un grupo social.
+  	> 3. Agrupar zonas geográficas segun su aporte a la economñia de un país.
 
 5. What are the advantages and disadvantages of a very flexible (versus a less flexible) approach for regression or classification? Under what circumstances might a more flexible approach be preferred to a less flexible approach? When might a less flexible approach be preferred?
   > Las ventajas de los modelos flexibles son que al no hacen tantas suposiciones de la forma de los datos y por lo tanto se ajustan mejor a datos con poca linealidad, desventajas son que hay un intercambio de flecibilidad e interpretabilidad, es más difñicil explicar una linea recta que un polinomio de grado 9, además que se puede caer en un sobreajuste.  
