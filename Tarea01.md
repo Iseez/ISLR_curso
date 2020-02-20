@@ -149,36 +149,38 @@ Obs.|X1|X2|X3|Y
 Before reading the data into R, it can be viewed in Excel or a text editor.
   * a) Use the read.csv() function to read the data into R. Call the loaded data college. Make sure that you have the directory set to the correct location for the data.  
   >```r
-  getwd()
-  setwd("./ISLR-master/")
-  college = read.csv("College.csv")```
+  >getwd()
+  >setwd("./ISLR-master/")
+  >college = read.csv("College.csv")```
 
   * b) Look at the data using the fix() function. You should notice that the first column is just the name of each university. We don’t really want R to treat this as data. However, it may be handy to have these names for later. Try the following commands:
-  ```r
-  rownames(college)=college[,1]  
-  fix(college)```  
+  >```r
+  >rownames(college)=college[,1]  
+  >fix(college)```  
 
   You should see that there is now a row.names column with the name of each university recorded. This means that R has given each row a name corresponding to the appropriate university. R will not try to perform calculations on the row names. However, we still need to eliminate the first column in the data where the names are stored. Try
-  ```r
-  college=college[,-1]  
-  fix(college)```  
+  >```r
+  >college=college[,-1]  
+  >fix(college)```  
   Now you should see that the first data column is ``Private``. Note that another column labeled ``row.names`` now appears before the ``Private`` column. However, this is not a data column but rather the name that ``R`` is giving to each row.  
   * c)
       1. Use the ``summary()`` function to produce a numerical summary of the variables in the data set.  
       > ```r
-      summary(college)```
+      >summary(college)```
       >![Ex8_c](ch02_ex08_c.png)
 
       2. Use the ``pairs()`` function to produce a scatterplot matrix of the first ten columns or variables of the data. Recall that you can reference the first ten columns of a matrix A using ``A[,1:10]``.
       > ```r
-      png("ch02_ex08_c_2.png")
-      pairs(college[,1:10])
-      dev.off()```
+      >png("ch02_ex08_c_2.png")
+      >pairs(college[,1:10])
+      >dev.off()```
       >![Ex8_c_2](ch02_ex08_c_2.png)
 
       3. Use the ``plot()`` function to produce side-by-side boxplots of ``Outstate`` versus ``Private``.
       >```r
-      ```
+      >png("ch02_ex08_c_3.png")
+      >plot(college$Outstate~college$Private)
+      >dev.off()```
       >![Ex8_c_3](ch02_ex08_c_3.png)
       4. Create a new qualitative variable, called ``Elite``, by binning the ``Top10perc`` variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10% of their high school classes exceeds 50 %.
       ```r
@@ -190,23 +192,21 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
       Use the ```summary()``` function to see how many elite universities there are. Now use the ```plot()``` function to produce side-by-side boxplots of ```Outstate``` versus ```Elite```.  
       >```r
       >###Después de hacer lo indicado por el libro:
-      summary(college)
-      png("ch02_ex08_c_4.png")
-      plot(college$Outstate~college$Elite)
-      dev.off()
-      ```
+      >summary(college)
+      >png("ch02_ex08_c_4.png")
+      >plot(college$Outstate~college$Elite)
+      >dev.off()```
       >![Ex8_c_4](ch02_ex08_c_4.png)
 
       5. Use the ``hist()`` function to produce some histograms with differing numbers of bins for a few of the quantitative variables. You may find the command ``par(mfrow=c(2,2))`` useful: it will divide the print window into four regions so that four plots can be made simultaneously. Modifying the arguments to this function will divide the screen in other ways.
       > ```r
-      png("ch02_ex08_c_5.png")
-      par(mfrow=c(2,2))
-      hist(College$Apps, breaks=30, main="Apps")
-      hist(College$Enroll, breaks=25, main="Enroll")
-      hist(College$Expend, breaks=20, main="Expend")
-      hist(College$Outstate, breaks=15, main="Outstate")
-      dev.off()
-      ```
+      >png("ch02_ex08_c_5.png")
+      >par(mfrow=c(2,2))
+      >hist(College$Apps, breaks=30, main="Apps")
+      >hist(College$Enroll, breaks=25, main="Enroll")
+      >hist(College$Expend, breaks=20, main="Expend")
+      >hist(College$Outstate, breaks=15, main="Outstate")
+      >dev.off()```
       >![Ex8_c_5](ch02_ex08_c_5.png)
       6. Continue exploring the data, and provide a brief summary of what you discover.
       > ```r
@@ -219,8 +219,7 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
       plot(college$Enroll,college$F.Undergrad)
       plot(college$Accept,college$Enroll)
       plot(college$Top10perc,college$Top25perc)
-      dev.off()
-      ```
+      dev.off()```
       >![Ex8_c_6](ch02_ex08_c_6.png)
       >Como era de esperarse hay una relación lineal entre número de profesores con doctorado y porcentaje de profesores con grado terminal, aunque hay algunos puntos que se salen de la diagonal de manera muy marcada.  
       >También, hay una relación lineal entre el número de estudiantes nuevos y el número de estudiantes de tiempo completo, las universidades que más aceptan también tienen más estudiante.  
@@ -228,26 +227,23 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
       >De manera obvia tambiñen hay una relación entre el número de estudiantes nuevos que estaban en el top 10% de su clase de preparatoria y los que estaban en el top 25%, aunque no es lineal, más bien cuadratica.
 9. This exercise involves the Auto data set studied in the lab. Make sure that the missing values have been removed from the data.
   > ```r
-  library(ISLR)
-  data(Auto)
-  >###We make sure there are no na`s
-  Auto = na.omit(Auto)
-  ```
+  >library(ISLR)
+  >data(Auto)
+  >###We make sure there are no na's
+  >Auto = na.omit(Auto)```
 
   * a) Which of the predictors are quantitative, and which are qualitative?  
   > ```r
-  summary(Auto)
-  str(Auto)
-  ```
+  >summary(Auto)
+  >str(Auto)```
   Cuantitativos:  
 	mpg, cylinders, displacement, horsepower, weight, acceleration & year  
-Cualitativos:  
+  Cualitativos:  
 	origin & name  
 
   * b) What is the range of each quantitative predictor? You can answer this using the range() function.  
   > ```r
-  lapply(Auto[,1:7],range)
-  ```
+  >lapply(Auto[,1:7],range)```
   mpg: 9-46.6  
   cylinders: 3-8  
   displacement: 68-455  
@@ -258,9 +254,8 @@ Cualitativos:
 
   * c) What is the mean and standard deviation of each quantitative predictor?
   >```r
-  lapply(Auto[,1:7],mean)
-  lapply(Auto[,1:7],sd)
-  ```
+  >lapply(Auto[,1:7],mean)
+  >lapply(Auto[,1:7],sd)```
   Predictor|Media|Desv.est  
   >---------|-----|--------  
   mpg|23.4459183673469|7.8050074865718  
@@ -273,10 +268,9 @@ Cualitativos:
 
   * d) Now remove the 10th through 85th observations. What is the range, mean, and standard deviation of each predictor in the subset of the data that remains?
   > ```r
-  apply(Auto[-(10:85),1:7],range)
-  lapply(Auto[-(10:85),1:7],mean)
-  lapply(Auto[-(10:85),1:7],sd)
-  ```
+  >apply(Auto[-(10:85),1:7],range)
+  >lapply(Auto[-(10:85),1:7],mean)
+  >lapply(Auto[-(10:85),1:7],sd)```
   Predictor|Range|Media|Desv.est  
   >---------|----|-----|--------  
   mpg|11-46.6|24.4044303797468|7.86728282443069
@@ -302,14 +296,14 @@ Cualitativos:
   > Sí, mpg tiene una clara relación negativa con displacement, horsepower y weight. Aunque de forma menos clara, también se puede ver que se influenciada positivamente por acceleration y año. Finalmente también se puede ver aunque de forma no tan clara que en general entre menos cilindros mayor mpg.
 10. This exercise involves the Boston housing data set.  
   * a) To begin, load in the Boston data set. The Boston data set is part of the MASS library in R.
-  ```r
-  ibrary(MASS)```
+  >```r
+  >ibrary(MASS)```
   Now the data set is contained in the object ``Boston``.
-  ```r
-  Boston```
+  >```r
+  >Boston```
   Read about the data set:
-  ```r
-  Boston```
+  >```r
+  >Boston```
   How many rows are in this data set? How many columns? What do the rows and columns represent?
   >Tiene 506 filas y 14 columnas. Las filas representan las observaciones y las columnas las variables.
 
