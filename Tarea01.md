@@ -293,70 +293,70 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
   __Horse power__ tiene una relación positiva y negativa con weight y acceleration respectivamente.  
 
   * f) Suppose that we wish to predict gas mileage (mpg) on the basis of the other variables. Do your plots suggest that any of the other variables might be useful in predicting mpg? Justify your answer.
-  > Sí, mpg tiene una clara relación negativa con displacement, horsepower y weight. Aunque de forma menos clara, también se puede ver que se influenciada positivamente por acceleration y año. Finalmente también se puede ver aunque de forma no tan clara que en general entre menos cilindros mayor mpg.
+  	> Sí, mpg tiene una clara relación negativa con displacement, horsepower y weight. Aunque de forma menos clara, también se puede ver que se influenciada positivamente por acceleration y año. Finalmente también se puede ver aunque de forma no tan clara que en general entre menos cilindros mayor mpg.
 10. This exercise involves the Boston housing data set.  
   * a) To begin, load in the Boston data set. The Boston data set is part of the MASS library in R.
-  >```r
-  >ibrary(MASS)```
+  	>```r
+  	>ibrary(MASS)```
   Now the data set is contained in the object ``Boston``.
-  >```r
-  >Boston```
+  	>```r
+ 	 >Boston```
   Read about the data set:
-  >```r
-  >Boston```
+  	>```r
+  	>Boston```
   How many rows are in this data set? How many columns? What do the rows and columns represent?
-  >Tiene 506 filas y 14 columnas. Las filas representan las observaciones y las columnas las variables.
+ 	 >Tiene 506 filas y 14 columnas. Las filas representan las observaciones y las columnas las variables.
 
   * b) Make some pairwise scatterplots of the predictors (columns) in this data set. Describe your findings.
-  >```r
-  png("ch02_ex10_b.png")
-  pairs(Boston)
-  dev.off()```
+  	>```r
+  	>png("ch02_ex10_b.png")
+  	>pairs(Boston)
+  	>dev.off()```
   >![Ex10_b](ch02_ex10_b.png)  
-  >Parece haber una relación no lineal entre nox y dis. También parece ser que rm y medv tienen una relación lineal. Además parece ser que lstat y medv están relacionadas.
+  	>Parece haber una relación no lineal entre nox y dis. También parece ser que rm y medv tienen una relación lineal. Además parece ser que lstat y medv están relacionadas.
 
   * c) Are any of the predictors associated with per capita crime rate? If so, explain the relationship.
-  >```r
-  library(ggplot2)
-  library(reshape2)
-  scatter_crim =ggplot(melt(Boston,id="crim"),aes(x=value,y=crim)) +
-  geom_point() +
-  facet_wrap(~variable, scales = 'free_x')
-  >png("ch02_ex10_c.png")
-  scatter_crim
-  dev.off()```
+  	>```r
+  	>library(ggplot2)
+  	>library(reshape2)
+  	>scatter_crim =ggplot(melt(Boston,id="crim"),aes(x=value,y=crim)) +
+  	>geom_point() +
+  	>facet_wrap(~variable, scales = 'free_x')
+  	>png("ch02_ex10_c.png")
+  	>scatter_crim
+  	>dev.off()```
   >![Ex10_c](ch02_ex10_c.png)  
-  >No parece haber ninguna relación clara entre la variable crim y el resto de las variables aunque vale la pena destacar que para valores de z grandes crim es pequeño (casi 0) y para la variable rad ocurre lo tax ocurre lo opuesto.
+  	>No parece haber ninguna relación clara entre la variable crim y el resto de las variables aunque vale la pena destacar que para valores de z grandes crim es pequeño (casi 0) y para la variable rad ocurre lo tax ocurre lo opuesto.
 
   * d) Do any of the suburbs of Boston appear to have particularly high crime rates? Tax rates? Pupil-teacher ratios? Comment on the range of each predictor.
-  > ```r
-  png("ch02_ex10_d.png")
-  ggplot(melt(t(Boston)),aes(x=Var2,y=value)) +
-  geom_point() +
-  facet_wrap(~Var1, scales = 'free')
-  dev.off()```
+  	> ```r
+  	>png("ch02_ex10_d.png")
+  	>ggplot(melt(t(Boston)),aes(x=Var2,y=value)) +
+  	>geom_point() +
+  	>facet_wrap(~Var1, scales = 'free')
+  	>dev.off()```
   >![Ex10_d](ch02_ex10_d.png)
-  >Hay mayores tasas de crimen e impuestos en los suburbios >300, el ptratio es menor en los suburbios entre 200 y 350 pero no es significativo.
+  	>Hay mayores tasas de crimen e impuestos en los suburbios >300, el ptratio es menor en los suburbios entre 200 y 350 pero no es significativo.
 
   * e) How many of the suburbs in this data set bound the Charles river?
-  >```r
-  >table(Boston$chas)```
-  > 35 suburbios.
+  	>```r
+  	>table(Boston$chas)```
+  	> 35 suburbios.
 
   * f) What is the median pupil-teacher ratio among the towns in this data set?
-  >```r
-  median(Boston$ptratio)```
-  > 19.05
+ 	 >```r
+  	>median(Boston$ptratio)```
+  	> 19.05
 
   * g) Which suburb of Boston has lowest median value of owner- occupied homes? What are the values of the other predictors for that suburb, and how do those values compare to the overall ranges for those predictors? Comment on your findings.  
-  > Suburbios con menor valor medio:  
-  >|	| crim | zn      | indus | chas | nox | rm    | age   | dis | rad    | tax | ptratio | black | lstat  | medv
+  	> Suburbios con menor valor medio:  
+  	>|	| crim | zn      | indus | chas | nox | rm    | age   | dis | rad    | tax | ptratio | black | lstat  | medv
   |------|---------|-------|------|-----|-------|-------|-----|--------|-----|---------|-------|--------|-------|---|
   | 399  | 38.3518 | 0     | 18.1 | 0   | 0.693 | 5.453 | 100 | 1.4896 | 24  | 666     | 20.2  | 396.90 | 30.59 | 5 |
   | 406  | 67.9208 | 0     | 18.1 | 0   | 0.693 | 5.683 | 100 | 1.4254 | 24  | 666     | 20.2  | 384.97 | 22.98 | 5 |
-  >
-  > Comparación con sus rangos:
-  > |	| crim      | zn    | indus | chas | nox   | rm     | age     | dis       | rad | tax | ptratio | black    | lstat  | medv   |
+  	>
+  	> Comparación con sus rangos:
+  	> |	| crim      | zn    | indus | chas | nox   | rm     | age     | dis       | rad | tax | ptratio | black    | lstat  | medv   |
 |-------|-----------|-------|-------|------|-------|--------|---------|-----------|-----|-----|---------|----------|--------|--------|
 | 0%    | 0.006320  | 0.0   | 0.46  | 0    | 0.385 | 3.5610 | 2.900   | 1.129600  | 1   | 187 | 12.60   | 0.3200   | 1.730  | 5.000  |
 | 25%   | 0.082045  | 0.0   | 5.19  | 0    | 0.449 | 5.8855 | 45.025  | 2.100175  | 4   | 279 | 17.40   | 375.3775 | 6.950  | 17.025 |
@@ -365,11 +365,11 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
 | 100%  | 88.976200 | 100.0 | 27.74 | 1    | 0.871 | 8.7800 | 100.000 | 12.126500 | 24  | 711 | 22.00   | 396.9000 | 37.970 | 50.000 |
 
   * h) In this data set, how many of the suburbs average more than seven rooms per dwelling? More than eight rooms per dwelling? Comment on the suburbs that average more than eight rooms per dwelling.
-  >```r
-  nrow(Boston[Boston$rm > 7,])
-  nrow(Boston[Boston$rm > 8,])
-  rbind(sapply(Boston[Boston$rm > 8,], mean), sapply(Boston, mean))```
-  |  | crim       | zn        | indus     | chas      | nox       | rm       | age       | dis       | rad       | tax      | ptratio  | black    | lstat  | medv   |
+  	>```r
+  	>nrow(Boston[Boston$rm > 7,])
+	>nrow(Boston[Boston$rm > 8,])
+  	>rbind(sapply(Boston[Boston$rm > 8,], mean), sapply(Boston, mean))```
+  >|  | crim       | zn        | indus     | chas      | nox       | rm       | age       | dis       | rad       | tax      | ptratio  | black    | lstat  | medv   |
   |------|------------|-----------|-----------|-----------|-----------|----------|-----------|-----------|-----------|----------|----------|----------|--------|--------|
   |  | 0.7187954  | 13.61538  | 7.078462  | 0.1538462 | 0.5392385 | 8.348538 | 71.53846  | 3.430192  | 7.461538  | 325.0769 | 16.36154 | 385.2108 | 4.310  | 44.200 |
   | 0%   | 0.0063200  | 0.00000   | 0.460000  | 0.0000000 | 0.3850000 | 3.561000 | 2.90000   | 1.129600  | 1.000000  | 187.0000 | 12.60000 | 0.3200   | 1.730  | 5.000  |
