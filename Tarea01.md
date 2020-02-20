@@ -49,9 +49,9 @@ _Iván Eduardo Sedeño Jiménez_
   curve(bayes_error, add=TRUE, col=4)   # irreducible error
   curve(test_error, add = TRUE, col=5)  # test error
   legend(1,600,legend=c("bias","variance","train error","bayes error","test error"),col=1:5,lwd=1)  
-  dev.off()  
+  dev.off() 
   ```
-  ![Ex3](ch02_ex03.png)
+  >![Ex3](ch02_ex03.png)
 
   - b) Explain why each of the five curves has the shape displayed in part (a).
   > Bias: en __negro__, este reduce a medida que la flexibilidad aumenta, ya que no se asume la forma de los datos.  
