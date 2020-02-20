@@ -36,21 +36,21 @@ _Iván Eduardo Sedeño Jiménez_
 
 3. We now revisit the bias-variance decomposition.  
   - a) Provide a sketch of typical (squared) bias, variance, training error, test error, and Bayes (or irreducible) error curves, on a single plot, as we go from less flexible statistical learning methods towards more flexible approaches. The x-axis should representthe amount of flexibility in the method, and the y-axis should represent the values for each curve. There should be five curves. Make sure to label each one.
-  >```r
-  >bias = function(x)350*exp(-0.65*x)  
-  >variance = function(x)x^3/3  
-  >train_error = function(x)450/(exp(0.7*x-1.5)+1)+15  
-  >test_error = function(x)variance(x)+bias(x)+bayes_error(x)+rnorm(1,mean=100,sd=20)  
-  >bayes_error = function(x)rnorm(1,mean=100,sd=11)+0*x  
-  >png("ch2_ex3.png")  
-  >curve(bias, xlim=c(0,10), ylim=c(0,600), xlab="flexibility", ylab="", col=1)  # bias
-  >curve(variance, add = TRUE, col=2)    # variance
-  >curve(train_error, add=TRUE, col=3)   # train error
-  >curve(bayes_error, add=TRUE, col=4)   # irreducible error
-  >curve(test_error, add = TRUE, col=5)  # test error
-  >legend(1,600,legend=c("bias","variance","train error","bayes error","test error"),col=1:5,lwd=1)  
-  >dev.off() 
-  ```
+     >```r
+ 	 >bias = function(x)350*exp(-0.65*x)  
+  	>variance = function(x)x^3/3  
+  	>train_error = function(x)450/(exp(0.7*x-1.5)+1)+15  
+  	>test_error = function(x)variance(x)+bias(x)+bayes_error(x)+rnorm(1,mean=100,sd=20)  
+  	>bayes_error = function(x)rnorm(1,mean=100,sd=11)+0*x  
+  	>png("ch2_ex3.png")  
+  	>curve(bias, xlim=c(0,10), ylim=c(0,600), xlab="flexibility", ylab="", col=1)  # bias
+  	>curve(variance, add = TRUE, col=2)    # variance
+  	>curve(train_error, add=TRUE, col=3)   # train error
+  	>curve(bayes_error, add=TRUE, col=4)   # irreducible error
+  	>curve(test_error, add = TRUE, col=5)  # test error
+  	>legend(1,600,legend=c("bias","variance","train error","bayes error","test error"),col=1:5,lwd=1)  
+  	>dev.off() 
+  	```
   >![Ex3](ch02_ex03.png)
 
   * b) Explain why each of the five curves has the shape displayed in part (a).
