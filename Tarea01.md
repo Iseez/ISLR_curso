@@ -84,33 +84,32 @@ _Iván Eduardo Sedeño Jiménez_
   > La ventaja de un modelo no parametrico es que al no asumir ninguna forma para los datos, se puede ajustar un modelo sin importar como sean los datos, la desventaja es que si el dataset no es representativo de la forma de los datos entonces entonces el modelo obtenido va a ser incorrecto.
 
 7. The table below provides a training data set containing six observations, three predictors, and one qualitative response variable.  
-      Obs.|X1|X2|X3|Y
-      ----|--|--|--|--
-      1 | 0 | 3 | 0 |RED
-      2 | 2 | 0 | 0 |RED
-      3 | 0 | 1 | 3 |RED  
-      4 | 0 | 1 | 2 |GREEN
-      5 | -1| 0 | 1 |GREEN  
-      6 | 1 | 1 | 1 |RED  
+Obs.|X1|X2|X3|Y  
+--|---|---|---|---  
+1 | 0 | 3 | 0 |RED  
+2 | 2 | 0 | 0 |RED  
+3 | 0 | 1 | 3 |RED  
+4 | 0 | 1 | 2 |GREEN  
+5 | -1| 0 | 1 |GREEN  
+6 | 1 | 1 | 1 |RED  
 
   Suppose we wish to use this data set to make a prediction for Y when X1 = X2 = X3 = 0 using K-nearest neighbors.
   * a) Compute the Euclidean distance between each observation and thetestpoint,X1 =X2 =X3 =0.
-  >```r
-  >#Observations
-  o1 = c(0,3,0)
-  o2 = c(2,0,0)
-  o3 = c(0,1,3)
-  o4 = c(0,1,2)
-  o5 = c(-1,0,1)
-  o6 = c(1,1,1)
-  >#Origin
-  orig = c(0,0,0)
-  >#All observations together
-  obs = matrix(c(o1,o2,o3,o4,o5,o6),ncol=3,byrow = T)
-  >#Computing distances
-  dist = function(x){sqrt(sum((x-orig)^2))}
-  by(obs,1:nrow(obs),dist,simplify = FALSE)
-  ```
+  	>```r
+  	>#Observations
+  	>o1 = c(0,3,0)
+  	>o2 = c(2,0,0)
+  	>o3 = c(0,1,3)
+  	>o4 = c(0,1,2)
+  	>o5 = c(-1,0,1)
+  	>o6 = c(1,1,1)
+  	>#Origin
+  	>orig = c(0,0,0)
+  	>#All observations together
+  	>obs = matrix(c(o1,o2,o3,o4,o5,o6),ncol=3,byrow = T)
+  	>#Computing distances
+  	>dist = function(x){sqrt(sum((x-orig)^2))}
+  	>by(obs,1:nrow(obs),dist,simplify = FALSE)```
   d1 = 3  
   d2 = 2  
   d3 = 3.162278  
@@ -119,13 +118,13 @@ _Iván Eduardo Sedeño Jiménez_
   d6 = 1.732051
 
   * b) What is our prediction with K = 1? Why?
-  > El vecino más cercano es la observación no. 5 con una distancia de 1.414214, por lo que se puede predecir que será verde.
+  	> El vecino más cercano es la observación no. 5 con una distancia de 1.414214, por lo que se puede predecir que será verde.
 
   * c) What is our prediction with K = 3? Why?
-  > Los tres vecinos más cercanos son las observaciones 5, 6 y 2, en ese orden, la observación 5 es verde mientras que las otras dos son rojas, por lo tanto, es razonable suponer que será roja.
+  	> Los tres vecinos más cercanos son las observaciones 5, 6 y 2, en ese orden, la observación 5 es verde mientras que las otras dos son rojas, por lo tanto, es razonable suponer que será roja.
 
   * d) If the Bayes decision boundary in this problem is highly non- linear, then would we expect the best value for K to be large or small? Why?
-  > Si es altamente no lineal es mejor una k pequeño, puesto que si comenzamos a usar una k cada vez más grande la frontera se vuelve poco flexible.
+  	> Si es altamente no lineal es mejor una k pequeño, puesto que si comenzamos a usar una k cada vez más grande la frontera se vuelve poco flexible.
 
 ## Práctica
 8. This exercise relates to the College data set, which can be found in the file College.csv. It contains a number of variables for 777 different universities and colleges in the US. The variables are
@@ -152,33 +151,29 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
   >```r
   getwd()
   setwd("./ISLR-master/")
-  college = read.csv("College.csv")
-  ```
+  college = read.csv("College.csv")```
 
   * b) Look at the data using the fix() function. You should notice that the first column is just the name of each university. We don’t really want R to treat this as data. However, it may be handy to have these names for later. Try the following commands:
   ```r
   rownames(college)=college[,1]  
-  fix(college)
-  ```
+  fix(college)```  
+
   You should see that there is now a row.names column with the name of each university recorded. This means that R has given each row a name corresponding to the appropriate university. R will not try to perform calculations on the row names. However, we still need to eliminate the first column in the data where the names are stored. Try
   ```r
   college=college[,-1]  
-  fix(college)
-  ```
+  fix(college)```  
   Now you should see that the first data column is ``Private``. Note that another column labeled ``row.names`` now appears before the ``Private`` column. However, this is not a data column but rather the name that ``R`` is giving to each row.  
   * c)
       1. Use the ``summary()`` function to produce a numerical summary of the variables in the data set.  
       > ```r
-      summary(college)
-      ```
-      ![Ex8_c](ch02_ex08_c.png)
+      summary(college)```
+      >![Ex8_c](ch02_ex08_c.png)
 
       2. Use the ``pairs()`` function to produce a scatterplot matrix of the first ten columns or variables of the data. Recall that you can reference the first ten columns of a matrix A using ``A[,1:10]``.
       > ```r
       png("ch02_ex08_c_2.png")
       pairs(college[,1:10])
-      dev.off()
-      ```
+      dev.off()```
       >![Ex8_c_2](ch02_ex08_c_2.png)
 
       3. Use the ``plot()`` function to produce side-by-side boxplots of ``Outstate`` versus ``Private``.
