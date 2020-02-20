@@ -210,16 +210,16 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
       >![Ex8_c_5](ch02_ex08_c_5.png)
       6. Continue exploring the data, and provide a brief summary of what you discover.
       > ```r
-      summary(college)
-      plot(college)
-      plot(college[,-c(1:2,8:12,15:19)])
-      png("ch02_ex08_c_6.png")
-      par(mfrow=c(2,2))
-      plot(college$PhD,college$Terminal)
-      plot(college$Enroll,college$F.Undergrad)
-      plot(college$Accept,college$Enroll)
-      plot(college$Top10perc,college$Top25perc)
-      dev.off()```
+      >summary(college)
+      >plot(college)
+      >plot(college[,-c(1:2,8:12,15:19)])
+      >png("ch02_ex08_c_6.png")
+      >par(mfrow=c(2,2))
+      >plot(college$PhD,college$Terminal)
+      >plot(college$Enroll,college$F.Undergrad)
+      >plot(college$Accept,college$Enroll)
+      >plot(college$Top10perc,college$Top25perc)
+      >dev.off()```
       >![Ex8_c_6](ch02_ex08_c_6.png)
       >Como era de esperarse hay una relación lineal entre número de profesores con doctorado y porcentaje de profesores con grado terminal, aunque hay algunos puntos que se salen de la diagonal de manera muy marcada.  
       >También, hay una relación lineal entre el número de estudiantes nuevos y el número de estudiantes de tiempo completo, las universidades que más aceptan también tienen más estudiante.  
@@ -242,15 +242,15 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
 	origin & name  
 
   * b) What is the range of each quantitative predictor? You can answer this using the range() function.  
-  > ```r
-  >lapply(Auto[,1:7],range)```
-  mpg: 9-46.6  
-  cylinders: 3-8  
-  displacement: 68-455  
-  horsepower: 46-230  
-  weight: 1613-5140  
-  acceleration: 8-24.8  
-  year: 70-82  
+	> ```r
+  	>lapply(Auto[,1:7],range)```
+  	>mpg: 9-46.6  
+  	>cylinders: 3-8  
+  	>displacement: 68-455  
+  	>horsepower: 46-230  
+  	>weight: 1613-5140  
+  	>acceleration: 8-24.8  
+  	>year: 70-82  
 
   * c) What is the mean and standard deviation of each quantitative predictor?
   >```r
@@ -282,10 +282,10 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
   year|70-82|77.1455696202532|3.10621690872137
 
   * e) Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your choice. Create some plots highlighting the relationships among the predictors. Comment on your findings.
-  > ```r
-  png("ch02_ex09_e.png")
-  pairs(Auto[,1:7])
-  dev.off()```
+  	> ```r
+  	>png("ch02_ex09_e.png")
+  	>pairs(Auto[,1:7])
+  	>dev.off()```
   >![Ex9_e](ch02_ex09_e.png)  
   > __mpg__ tiene una relación negative con displacement, horsepower y weight.  
   __cylinders__ tiene una relación positive con displacement.  
