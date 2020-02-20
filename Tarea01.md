@@ -257,7 +257,7 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
   >lapply(Auto[,1:7],mean)
   >lapply(Auto[,1:7],sd)```
   Predictor|Media|Desv.est  
-  >---------|-----|--------  
+  ---------|-----|--------  
   mpg|23.4459183673469|7.8050074865718  
   cylinders|5.4719387755102|1.70578324745278  
   displacement|194.411989795918|104.644003908905  
@@ -350,13 +350,13 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
 
   * g) Which suburb of Boston has lowest median value of owner- occupied homes? What are the values of the other predictors for that suburb, and how do those values compare to the overall ranges for those predictors? Comment on your findings.  
   	> Suburbios con menor valor medio:  
-  	>|	| crim | zn      | indus | chas | nox | rm    | age   | dis | rad    | tax | ptratio | black | lstat  | medv
+  |	 | crim | zn      | indus | chas | nox | rm    | age   | dis | rad    | tax | ptratio | black | lstat  | medv
   |------|---------|-------|------|-----|-------|-------|-----|--------|-----|---------|-------|--------|-------|---|
   | 399  | 38.3518 | 0     | 18.1 | 0   | 0.693 | 5.453 | 100 | 1.4896 | 24  | 666     | 20.2  | 396.90 | 30.59 | 5 |
   | 406  | 67.9208 | 0     | 18.1 | 0   | 0.693 | 5.683 | 100 | 1.4254 | 24  | 666     | 20.2  | 384.97 | 22.98 | 5 |
   	>
   	> Comparación con sus rangos:
-  	> |	| crim      | zn    | indus | chas | nox   | rm     | age     | dis       | rad | tax | ptratio | black    | lstat  | medv   |
+|	| crim      | zn    | indus | chas | nox   | rm     | age     | dis       | rad | tax | ptratio | black    | lstat  | medv   |
 |-------|-----------|-------|-------|------|-------|--------|---------|-----------|-----|-----|---------|----------|--------|--------|
 | 0%    | 0.006320  | 0.0   | 0.46  | 0    | 0.385 | 3.5610 | 2.900   | 1.129600  | 1   | 187 | 12.60   | 0.3200   | 1.730  | 5.000  |
 | 25%   | 0.082045  | 0.0   | 5.19  | 0    | 0.449 | 5.8855 | 45.025  | 2.100175  | 4   | 279 | 17.40   | 375.3775 | 6.950  | 17.025 |
@@ -368,8 +368,8 @@ Before reading the data into R, it can be viewed in Excel or a text editor.
   	>```r
   	>nrow(Boston[Boston$rm > 7,])
 	>nrow(Boston[Boston$rm > 8,])
-  	>rbind(sapply(Boston[Boston$rm > 8,], mean), sapply(Boston, mean))```
-  >|  | crim       | zn        | indus     | chas      | nox       | rm       | age       | dis       | rad       | tax      | ptratio  | black    | lstat  | medv   |
+  	>rbind(sapply(Boston[Boston$rm > 8,], mean), sapply(Boston, mean))```	
+  |  | crim       | zn        | indus     | chas      | nox       | rm       | age       | dis       | rad       | tax      | ptratio  | black    | lstat  | medv   |
   |------|------------|-----------|-----------|-----------|-----------|----------|-----------|-----------|-----------|----------|----------|----------|--------|--------|
   |  | 0.7187954  | 13.61538  | 7.078462  | 0.1538462 | 0.5392385 | 8.348538 | 71.53846  | 3.430192  | 7.461538  | 325.0769 | 16.36154 | 385.2108 | 4.310  | 44.200 |
   | 0%   | 0.0063200  | 0.00000   | 0.460000  | 0.0000000 | 0.3850000 | 3.561000 | 2.90000   | 1.129600  | 1.000000  | 187.0000 | 12.60000 | 0.3200   | 1.730  | 5.000  |
