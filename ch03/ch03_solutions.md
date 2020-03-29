@@ -21,11 +21,11 @@ _Iván Eduardo Sedeño Jiménez_
  - d) Answer (c) using test rather than training RSS.
 5. Consider the fitted values that result from performing linear regres- sion without an intercept. In this setting, the ith fitted value takes the form  
 
- ![Eq1](equation1.png)  
+    ![Eq1](equation1.png)  
 
  where  
 
- ![Eq2](equation2.png)  (3.38)
+   ![Eq2](equation2.png)  (3.38)
 
  Show that we can write
 
