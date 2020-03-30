@@ -57,8 +57,10 @@ _Iván Eduardo Sedeño Jiménez_
 
 6. Using (3.4), argue that in the case of simple linear regression, the least squares line always passes through the point (x ̄, y ̄).
     > Siguiendo la ecuación 3.4:
-    > ![Eq12](equation12.png) 
-7. It is claimed in the text that in the case of simple linear regression of Y onto X, the R2 statistic (3.17) is equal to the square of the correlation between X and Y (3.18). Prove that this is the case. For simplicity, you may assume that x ̄ = y ̄ = 0.
+    > ![Eq12](equation12.png)
+
+7. It is claimed in the text that in the case of simple linear regression of Y onto X, the R^2 statistic (3.17) is equal to the square of the correlation between X and Y (3.18). Prove that this is the case. For simplicity, you may assume that x ̄ = y ̄ = 0.  
+    > ![Eq13](equation13.png)
 ## Practica  
 8. This question involves the use of simple linear regression on the Auto data set.
  - a) Use the lm() function to perform a simple linear regression with mpg as the response and horsepower as the predictor. Use the summary() function to print the results. Comment on the output. For example:  
