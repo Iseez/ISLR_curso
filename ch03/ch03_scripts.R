@@ -138,3 +138,33 @@ dev.off()
 confint(fit)
 confint(fit1)
 confint(fit2)
+
+set.seed(1)
+x1=runif(100)
+x2=0.5*x1+rnorm(100)/10
+y=2+2*x1+0.3*x2+rnorm(100)
+
+cor(x1, x2)
+png("ch3_ex14_b.png")
+plot(x1, x2)
+dev.off()
+
+
+
+fit = lm(y~x1+x2)
+summary(fit)
+
+fitx1 = lm(y~x1)
+summary(fitx1)
+fitx2 = lm(y~x2)
+summary(fitx2)
+
+x1=c(x1, 0.1)
+x2=c(x2, 0.8)
+y=c(y,6)
+fit.new = lm(y~x1+x2)
+summary(fit.new)
+fitx.new1 = lm(y~x1)
+summary(fitx.new1)
+fitx.new2 = lm(y~x2)
+summary(fitx.new2)

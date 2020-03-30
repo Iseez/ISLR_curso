@@ -821,6 +821,8 @@ careful—some of the variables in the model are qualitative!
     >|-------------|------------|------------|
     >| (Intercept) | -1.0352203 | -0.8559276 |
     >| x.2         | 0.4055479  | 0.5935197  |
+    >
+    > El intervalo de confianza es mayor entre mayor sea la varianza.
 14. This problem focuses on the collinearity problem.
  - a) Perform the following commands in R:
     ```r
@@ -830,11 +832,106 @@ careful—some of the variables in the model are qualitative!
     > y=2+2*x1+0.3*x2+rnorm(100)
     ```
  The last line corresponds to creating a linear model in which y is a function of x1 and x2. Write out the form of the linear model. What are the regression coefficients?
+    > Los errores son βo = 2, β1 = 2, β2 = 0.3 y el error es rnorm(100).
  - b) What is the correlation between x1 and x2? Create a scatterplot displaying the relationship between the variables.
+    >```r
+    >cor(x1, x2)
+    >```
+    >```
+    >0.835121242463113
+    >```
+    >```r
+    >png("ch3_ex14_b.png")
+    >plot(x1, x2)
+    >dev.off()
+    >```
+    >![ch3_ex14_b](ch3_ex14_b.png)
+    > La correlación es positiva.
+
  - c) Using this data, fit a least squares regression to predict y using x1 and x2. Describe the results obtained. What are βˆ0, βˆ1, and βˆ2? How do these relate to the true β0, β1, and β2? Can you reject the null hypothesis H0 : β1 = 0? How about the null hypothesis H0 : β2 = 0?
+    >```r
+    >fit_14 = lm(y~x1+x2)
+    >summary(fit_14)
+    >```
+    >```
+    >Call:
+    >lm(formula = y ~ x1 + x2)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-2.8311 -0.7273 -0.0537  0.6338  2.3359
+    >
+    >Coefficients:
+    >            Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept)   2.1305     0.2319   9.188 7.61e-15 ***
+    >x1            1.4396     0.7212   1.996   0.0487 *  
+    >x2            1.0097     1.1337   0.891   0.3754    
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 1.056 on 97 degrees of freedom
+    >Multiple R-squared:  0.2088,	Adjusted R-squared:  0.1925
+    >F-statistic:  12.8 on 2 and 97 DF,  p-value: 1.164e-05
+    >
+    >```
+    > Los coeficientes obtenidos cambian significativamente, parece ser que el unicopredictor significativo es x1 segun su p-valor.
+
  - d) Now fit a least squares regression to predict y using only x1. Comment on your results. Can you reject the null hypothesis H0 :β1 =0?
+    >```r
+    >fitx1 = lm(y~x1)
+    >summary(fitx1)
+    >```
+    >```
+    >Call:
+    >lm(formula = y ~ x1)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-2.89495 -0.66874 -0.07785  0.59221  2.45560
+    >
+    >Coefficients:
+    >            Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept)   2.1124     0.2307   9.155 8.27e-15 ***
+    >x1            1.9759     0.3963   4.986 2.66e-06 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 1.055 on 98 degrees of freedom
+    >Multiple R-squared:  0.2024,	Adjusted R-squared:  0.1942
+    >F-statistic: 24.86 on 1 and 98 DF,  p-value: 2.661e-06
+    >
+    >```
+    >Se puede rechazar la hipotesis nula puesto que el p-valor es muy bajo.
  - e) Now fit a least squares regression to predict y using only x2. Comment on your results. Can you reject the null hypothesis H0 :β1 =0?
+    >```r
+    >fitx2 = lm(y~x1)
+    >summary(fitx2)
+    >```
+    >```
+    >Call:
+    >lm(formula = y ~ x2)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-2.62687 -0.75156 -0.03598  0.72383  2.44890
+    >
+    >Coefficients:
+    >            Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept)   2.3899     0.1949   12.26  < 2e-16 ***
+    >x1            2.8996     0.6330    4.58 1.37e-05 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 1.072 on 98 degrees of freedom
+    >Multiple R-squared:  0.1763,	Adjusted R-squared:  0.1942
+    >F-statistic: 20.98 on 1 and 98 DF,  p-value: 2.661e-06
+    >
+    >```
+    > En este caso la hipotesis nula es rechazada por que el p-valor es casi 0.
+
  - f) Do the results obtained in (c)–(e) contradict each other? Explain your answer.
+  >Se podría pensar que sí, sin embargo, en el c es tomando en cuenta tambien la variable x1, así que no.
+
  - g) Now suppose we obtain one additional observation, which was unfortunately mismeasured.
     ```r
     > x1=c(x1, 0.1)
@@ -842,6 +939,80 @@ careful—some of the variables in the model are qualitative!
     > y=c(y,6)
     ```
  Re-fit the linear models from (c) to (e) using this new data. What effect does this new observation have on the each of the models? In each model, is this observation an outlier? A high-leverage point? Both? Explain your answers.
+    >```r
+    >fit.new = lm(y~x1+x2)
+    >summary(fit.new)
+    >```
+    >
+    >```
+    >Call:
+    >lm(formula = y ~ x1 + x2)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-2.73348 -0.69318 -0.05263  0.66385  2.30619
+    >
+    >Coefficients:
+    >            Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept)   2.2267     0.2314   9.624 7.91e-16 ***
+    >x1            0.5394     0.5922   0.911  0.36458    
+    >x2            2.5146     0.8977   2.801  0.00614 **
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 1.075 on 98 degrees of freedom
+    >Multiple R-squared:  0.2188,	Adjusted R-squared:  0.2029
+    >F-statistic: 13.72 on 2 and 98 DF,  p-value: 5.564e-06
+    >
+    >```
+    > En este caso la unica variable importante es x2.
+    >```r
+    >fitx.new1 = lm(y~x1)
+    >summary(fitx.new1)
+    >fitx.new2 = lm(y~x2)
+    >summary(fitx.new2)
+    >```
+    >
+    >```
+    >    Call:
+    >    lm(formula = y ~ x1)
+    >
+    >    Residuals:
+    >        Min      1Q  Median      3Q     Max
+    >    -2.8897 -0.6556 -0.0909  0.5682  3.5665
+    >
+    >    Coefficients:
+    >                Estimate Std. Error t value Pr(>|t|)    
+    >    (Intercept)   2.2569     0.2390   9.445 1.78e-15 ***
+    >    x1            1.7657     0.4124   4.282 4.29e-05 ***
+    >    ---
+    >    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >    Residual standard error: 1.111 on 99 degrees of freedom
+    >    Multiple R-squared:  0.1562,	Adjusted R-squared:  0.1477
+    >    F-statistic: 18.33 on 1 and 99 DF,  p-value: 4.295e-05
+    >
+    >    Call:
+    >    lm(formula = y ~ x2)
+    >
+    >    Residuals:
+    >         Min       1Q   Median       3Q      Max
+    >    -2.64729 -0.71021 -0.06899  0.72699  2.38074
+    >
+    >    Coefficients:
+    >                Estimate Std. Error t value Pr(>|t|)    
+    >    (Intercept)   2.3451     0.1912  12.264  < 2e-16 ***
+    >    x2            3.1190     0.6040   5.164 1.25e-06 ***
+    >    ---
+    >    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >    Residual standard error: 1.074 on 99 degrees of freedom
+    >    Multiple R-squared:  0.2122,	Adjusted R-squared:  0.2042
+    >    F-statistic: 26.66 on 1 and 99 DF,  p-value: 1.253e-06
+    >
+    >```
+    > Se observa lo mismo que en el ejercicio anterior, por separado los predictores parecen ser importantes, pero al verlos juntos se ve que no es así.
+
 15. This problem involves the Boston data set, which we saw in the lab for this chapter. We will now try to predict per capita crime rate using the other variables in this data set. In other words, per capita crime rate is the response, and the other variables are the predictors.
  - a) For each predictor, fit a simple linear regression model to predict the response. Describe your results. In which of the models is there a statistically significant association between the predictor and the response? Create some plots to back up your assertions.
  - b) Fit a multiple regression model to predict the response using all of the predictors. Describe your results. For which predictors can we reject the null hypothesis H0 : βj = 0?
