@@ -939,12 +939,12 @@ careful—some of the variables in the model are qualitative!
     > x2=c(x2, 0.8)
     > y=c(y,6)
     ```
- Re-fit the linear models from (c) to (e) using this new data. What effect does this new observation have on the each of the models? In each model, is this observation an outlier? A high-leverage point? Both? Explain your answers.
+    Re-fit the linear models from (c) to (e) using this new data. What effect does this new observation have on the each of the models? In each model, is this observation an outlier? A high-leverage point? Both? Explain your answers.
     >```r
     >fit.new = lm(y~x1+x2)
     >summary(fit.new)
     >```
-    >
+
     >```
     >Call:
     >lm(formula = y ~ x1 + x2)
@@ -966,7 +966,9 @@ careful—some of the variables in the model are qualitative!
     >F-statistic: 13.72 on 2 and 98 DF,  p-value: 5.564e-06
     >
     >```
+    >
     > En este caso la unica variable importante es x2.
+    >
     >```r
     >fitx.new1 = lm(y~x1)
     >summary(fitx.new1)
@@ -1012,6 +1014,7 @@ careful—some of the variables in the model are qualitative!
     >    F-statistic: 26.66 on 1 and 99 DF,  p-value: 1.253e-06
     >
     >```
+    >
     > Se observa lo mismo que en el ejercicio anterior, por separado los predictores parecen ser importantes, pero al verlos juntos se ve que no es así.
 
 15. This problem involves the Boston data set, which we saw in the lab for this chapter. We will now try to predict per capita crime rate using the other variables in this data set. In other words, per capita crime rate is the response, and the other variables are the predictors.
