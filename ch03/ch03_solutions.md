@@ -23,16 +23,16 @@ _Iván Eduardo Sedeño Jiménez_
 
     ![Eq1](equation1.png)  
 
- where  
+    where  
 
-   ![Eq2](equation2.png)  (3.38)
+    ![Eq2](equation2.png)  (3.38)
 
- Show that we can write
+    Show that we can write
 
- ![Eq3](equation3.png)
+    ![Eq3](equation3.png)
 
- What is ai′ ?  
- Note: We interpret this result by saying that the fitted values from linear regression are linear combinations of the response values.
+    What is ai′ ?  
+    Note: We interpret this result by saying that the fitted values from linear regression are linear combinations of the response values.
 
 ## Practica  
 8. This question involves the use of simple linear regression on the Auto data set.
