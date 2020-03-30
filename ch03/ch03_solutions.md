@@ -5,20 +5,37 @@ _Iván Eduardo Sedeño Jiménez_
 ## Teoría  
 
 1. Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.
+    >![tab3_4](tab3_4png)  
+    >Parece ser que contrario a radio y TV, newspaper no tiene una relación con la variable sales.  
+
 2. Carefully explain the differences between the KNN classifier and KNN regression methods.
+    > En regresión KNN se predice una variable a partir de las más cercanas, en clasificación KNN se asigna a un grupo una observación a partir de las observaciones más cercanas espacialmente.  
+
 3. Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Gender (1 for Female and 0 for Male), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Gender. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 2 0 , βˆ 2 = 0 . 0 7 , βˆ 3 = 3 5 , βˆ 4 = 0 . 0 1 , βˆ 5 = − 1 0 .
  - a) Which answer is correct, and why?  
     1. ForafixedvalueofIQandGPA,malesearnmoreonaverage than females.
     2. For a fixed value of IQ and GPA, females earn more on average than males.
     3. For a fixedvalueofIQandGPA,malesearnmoreonaverage than females provided that the GPA is high enough.
     4. For a fixed value of IQ and GPA, females earn more on average than males provided that the GPA is high enough.
-  - b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.
-  - c) True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.
+    > La tercera es verdadera, las demás no se cumplen para ciertos valores de IQ y/o GPA.  
+
+ - b) Predict the salary of a female with IQ of 110 and a GPA of 4.0.
+    > Salary = 50 + 20x4.0 + 0.07x110 + 35x1 + 0.01x4.0x110 - 10x4.0x1
+    > Salary = 137.1 (Que por escala se multiplica por mil dólares).  
+
+ - c) True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.
+    > Falso, aunque el coeficiente es pequeño, los valores de IQ son bastante más grandes comparados con los del resto de los predictores, por lo que al final es necesario tomarlo en cuenta.
+
 4. I collect a set of data (n = 100 observations) containing a single predictor and a quantitative response. I then fit a linear regression model to the data, as well as a separate cubic regression, i.e. Y = β0 +β1X +β2X2 +β3X3 +ε.
  - a) Suppose that the true relationship between X and Y is linear, i.e. Y = β0 + β1X + ε. Consider the training residual sum of squares (RSS) for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer.
- - b) Answer (a) using test rather than training RSS.
- - c) SupposethatthetruerelationshipbetweenXandYisnotlinear, but we don’t know how far it is from linear. Consider the training RSS for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer.
- - d) Answer (c) using test rather than training RSS.
+    > El RSS disminuira para el modelo cúbico, probablemente haya overfitting.  
+
+ - b) Answer (a) using test rather than training RSS.  
+    > El RSS disminuira para el modelo lineal, el cúbico probablemente tenga overfitting y aumente su RSS.
+ - c) Suppose that the true relationship between X and Y is not linear, but we don’t know how far it is from linear. Consider the training RSS for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer.  
+    > El modelo RSS tendrá un menor RSS al ser no lienal.
+ - d) Answer (c) using test rather than training RSS.  
+    > No hay suficiente información.
 5. Consider the fitted values that result from performing linear regres- sion without an intercept. In this setting, the ith fitted value takes the form  
 
     ![Eq1](equation1.png)  
@@ -33,7 +50,15 @@ _Iván Eduardo Sedeño Jiménez_
 
     What is ai′ ?  
     Note: We interpret this result by saying that the fitted values from linear regression are linear combinations of the response values.
+    >![Eq8](equation8.png)  
+    >![Eq9](equation9.png)  
+    >![Eq10](equation10.png)  
+    >![Eq11](equation11.png)  
 
+6. Using (3.4), argue that in the case of simple linear regression, the least squares line always passes through the point (x ̄, y ̄).
+    > Siguiendo la ecuación 3.4:
+    > ![Eq12](equation12.png) 
+7. It is claimed in the text that in the case of simple linear regression of Y onto X, the R2 statistic (3.17) is equal to the square of the correlation between X and Y (3.18). Prove that this is the case. For simplicity, you may assume that x ̄ = y ̄ = 0.
 ## Practica  
 8. This question involves the use of simple linear regression on the Auto data set.
  - a) Use the lm() function to perform a simple linear regression with mpg as the response and horsepower as the predictor. Use the summary() function to print the results. Comment on the output. For example:  
