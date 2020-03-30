@@ -66,11 +66,11 @@ careful—some of the variables in the model are qualitative!
  - g) Using the model from (e), obtain 95% confidence intervals for the coefficient(s).
  - h) Is there evidence of outliers or high leverage observations in the model from (e)?  
 11. In this problem we will investigate the t-statistic for the null hypoth- esis H0 : β = 0 in simple linear regression without an intercept. To begin, we generate a predictor x and a response y as follows.  
- ```r
- > set . seed (1)
- > x=rnorm(100)
- > y=2*x+rnorm(100)
- ```
+    ```r
+    > set . seed (1)
+    > x=rnorm(100)
+    > y=2*x+rnorm(100)
+    ```
   - a) Perform a simple linear regression of y onto x, without an in- tercept. Report the coefficient estimate βˆ, the standard error of this coefficient estimate, and the t-statistic and p-value associ- ated with the null hypothesis H0 : β = 0. Comment on these results. (You can perform regression without an intercept using the command lm(y∼x+0).)
   - b) Now perform a simple linear regression of x onto y without an intercept, and report the coefficient estimate, its standard error, and the corresponding t-statistic and p-values associated with the null hypothesis H0 : β = 0. Comment on these results.
   - c)  What is the relationship between the results obtained in (a) and (b)?
@@ -105,12 +105,12 @@ careful—some of the variables in the model are qualitative!
  - j) What are the confidence intervals for β0 and β1 based on the original data set, the noisier data set, and the less noisy data set? Comment on your results.
 14. This problem focuses on the collinearity problem.
  - a) Perform the following commands in R:
- ```r
- > set.seed(1)
-> x1=runif(100)
-> x2=0.5*x1+rnorm(100)/10
-> y=2+2*x1+0.3*x2+rnorm(100)
- ```
+    ```r
+    > set.seed(1)
+    > x1=runif(100)
+    > x2=0.5*x1+rnorm(100)/10
+    > y=2+2*x1+0.3*x2+rnorm(100)
+    ```
  The last line corresponds to creating a linear model in which y is a function of x1 and x2. Write out the form of the linear model. What are the regression coefficients?
  - b) What is the correlation between x1 and x2? Create a scatterplot displaying the relationship between the variables.
  - c) Using this data, fit a least squares regression to predict y using x1 and x2. Describe the results obtained. What are βˆ0, βˆ1, and βˆ2? How do these relate to the true β0, β1, and β2? Can you reject the null hypothesis H0 : β1 = 0? How about the null hypothesis H0 : β2 = 0?
@@ -118,11 +118,11 @@ careful—some of the variables in the model are qualitative!
  - e) Now fit a least squares regression to predict y using only x2. Comment on your results. Can you reject the null hypothesis H0 :β1 =0?
  - f) Do the results obtained in (c)–(e) contradict each other? Explain your answer.
  - g) Now suppose we obtain one additional observation, which was unfortunately mismeasured.
- ```r
- > x1=c(x1, 0.1)
- > x2=c(x2, 0.8)
- > y=c(y,6)
- ```
+    ```r
+    > x1=c(x1, 0.1)
+    > x2=c(x2, 0.8)
+    > y=c(y,6)
+    ```
  Re-fit the linear models from (c) to (e) using this new data. What effect does this new observation have on the each of the models? In each model, is this observation an outlier? A high-leverage point? Both? Explain your answers.
 15. This problem involves the Boston data set, which we saw in the lab for this chapter. We will now try to predict per capita crime rate using the other variables in this data set. In other words, per capita crime rate is the response, and the other variables are the predictors.
  - a) For each predictor, fit a simple linear regression model to predict the response. Describe your results. In which of the models is there a statistically significant association between the predictor and the response? Create some plots to back up your assertions.
