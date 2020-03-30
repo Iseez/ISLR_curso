@@ -56,7 +56,7 @@ _Iván Eduardo Sedeño Jiménez_
     >![Eq11](equation11.png)  
 
 6. Using (3.4), argue that in the case of simple linear regression, the least squares line always passes through the point (x ̄, y ̄).
-    > Siguiendo la ecuación 3.4:
+    > Siguiendo la ecuación 3.4:  
     > ![Eq12](equation12.png)
 
 7. It is claimed in the text that in the case of simple linear regression of Y onto X, the R^2 statistic (3.17) is equal to the square of the correlation between X and Y (3.18). Prove that this is the case. For simplicity, you may assume that x ̄ = y ̄ = 0.  
@@ -504,8 +504,108 @@ careful—some of the variables in the model are qualitative!
 
 12. This problem involves simple linear regression without an intercept.
  - a) Recall that the coefficient estimate βˆ for the linear regression of Y onto X without an intercept is given by (3.38). Under what circumstance is the coefficient estimate for the regression of X onto Y the same as the coefficient estimate for the regression of Y onto X?
+    > Para que esto se cumpla, la suma de los cuadrados de los y-valores observados debe de ser igual a la suma de los x-valores observados.
+
  - b) Generate an example in R with n = 100 observations in which the coefficient estimate for the regression of X onto Y is different from the coefficient estimate for the regression of Y onto X.
+    > ```r
+    > set.seed(1)
+    >x = rnorm(100)
+    >y = x+rnorm(100)
+    >reg1 = lm(y~x-1)
+    >reg2 = lm(x~y-1)
+    >summary(reg1)
+    >summary(reg2)
+    > ```
+    > ```
+    >
+    >Call:
+    >lm(formula = y ~ x - 1)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-1.9154 -0.6472 -0.1771  0.5056  2.3109
+    >
+    >Coefficients:
+    >  Estimate Std. Error t value Pr(>|t|)    
+    >x   4.9939     0.1065    46.9   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.9586 on 99 degrees of freedom
+    >Multiple R-squared:  0.9569,	Adjusted R-squared:  0.9565
+    >F-statistic:  2200 on 1 and 99 DF,  p-value: < 2.2e-16
+    >
+    >Call:
+    >lm(formula = x ~ y - 1)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-0.42234 -0.09331  0.04202  0.11837  0.35994
+    >
+    >Coefficients:
+    >  Estimate Std. Error t value Pr(>|t|)    
+    >y 0.191621   0.004086    46.9   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.1878 on 99 degrees of freedom
+    >Multiple R-squared:  0.9569,	Adjusted R-squared:  0.9565
+    >F-statistic:  2200 on 1 and 99 DF,  p-value: < 2.2e-16
+    >
+    > ```
+    >Se puede apreciar de los resumenes que los coeficientes son diferentes.
+
  - c) Generate an example in R with n = 100 observations in which the coefficient estimate for the regression of X onto Y is the same as the coefficient estimate for the regression of Y onto X.
+    >```r
+    >set.seed(1)
+    >x = rnorm(100)
+    >y = -sample(x,100)
+    >reg1.a = lm(y~x-1)
+    >reg2.a = lm(x~y-1)
+    >summary(reg1.a)
+    >summary(reg2.a)
+    >```
+    >```
+    >
+    >Call:
+    >lm(formula = y ~ x - 1)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-2.2833 -0.6945 -0.1140  0.4995  2.1665
+    >
+    >Coefficients:
+    >  Estimate Std. Error t value Pr(>|t|)
+    >x  0.07768    0.10020   0.775     0.44
+    >
+    >Residual standard error: 0.9021 on 99 degrees of freedom
+    >Multiple R-squared:  0.006034,	Adjusted R-squared:  -0.004006
+    >F-statistic: 0.601 on 1 and 99 DF,  p-value: 0.4401
+    >
+    >Call:
+    >lm(formula = x ~ y - 1)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-2.2182 -0.4969  0.1595  0.6782  2.4017
+    >
+    >Coefficients:
+    >  Estimate Std. Error t value Pr(>|t|)
+    >y  0.07768    0.10020   0.775     0.44
+    >
+    >Residual standard error: 0.9021 on 99 degrees of freedom
+    >Multiple R-squared:  0.006034,	Adjusted R-squared:  -0.004006
+    >F-statistic: 0.601 on 1 and 99 DF,  p-value: 0.4401
+    >
+    >```
+    >```r
+    >sum(x^2) ==sum(y^2)
+    >```
+    >```
+    >TRUE
+    >```
+    > Se puede ver que son iguales los coeficientes, errores y estadisticas. Al igual que la suma de los cuadrados, por lo que se había discutido anteriormente.
+
 13. In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to starting part (a) to ensure consistent results.
  - a) Using the rnorm() function, create a vector, x, containing 100 observations drawn from a N(0,1) distribution. This represents a feature, X.
  - b)Using the rnorm() function, create a vector, eps, containing 100 observations drawn from a N(0,0.25) distribution i.e. a normal distribution with mean zero and variance 0.25.
