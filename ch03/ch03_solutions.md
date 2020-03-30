@@ -65,32 +65,32 @@ _Iván Eduardo Sedeño Jiménez_
 ## Practica  
 8. This question involves the use of simple linear regression on the ``Auto`` data set.
  - a) Use the ``lm()`` function to perform a simple linear regression with ``mpg`` as the response and ``horsepower`` as the predictor. Use the`` summary()`` function to print the results.  
- > ```r
- >auto=na.omit(read.csv("Auto.csv",na.strings="?"))
- >attach(auto)
- >fit=lm(mpg~horsepower)
- >summary(fit)
- > ```  
- > ```
- >
- >Call:
- >lm(formula = mpg ~ horsepower)
- >
- >Residuals:
- >     Min       1Q   Median       3Q      Max
- >-13.5710  -3.2592  -0.3435   2.7630  16.9240
- >
- >Coefficients:
- >          Estimate Std. Error t value Pr(>|t|)    
- >(Intercept) 39.935861   0.717499   55.66   <2e-16 ***
- >horsepower  -0.157845   0.006446  -24.49   <2e-16 ***
- >---
- >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
- >
- >Residual standard error: 4.906 on 390 degrees of freedom
- >Multiple R-squared:  0.6059,	Adjusted R-squared:  0.6049
- >F-statistic: 599.7 on 1 and 390 DF,  p-value: < 2.2e-16
- >```
+    > ```r
+    >auto=na.omit(read.csv("Auto.csv",na.strings="?"))
+    >attach(auto)
+    >fit=lm(mpg~horsepower)
+    >summary(fit)
+    > ```  
+    > ```
+    >
+    >Call:
+    >lm(formula = mpg ~ horsepower)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-13.5710  -3.2592  -0.3435   2.7630  16.9240
+    >
+    >Coefficients:
+    >          Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept) 39.935861   0.717499   55.66   <2e-16 ***
+    >horsepower  -0.157845   0.006446  -24.49   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 4.906 on 390 degrees of freedom
+    >Multiple R-squared:  0.6059,	Adjusted R-squared:  0.6049
+    >F-statistic: 599.7 on 1 and 390 DF,  p-value: < 2.2e-16
+    >```
 
     Comment on the output. For example:  
     1. Is there a relationship between the predictor and the re- sponse?
@@ -218,27 +218,226 @@ _Iván Eduardo Sedeño Jiménez_
     > Sí, la observación 14 tiene demasiado leverage.
 
  - e) Use the ``*`` and ``:`` symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?
+    >```r
+    >fit.cor = lm(mpg~cylinders*displacement+displacement:weight)
+    >summary(fit.cor)
+    >```
+    >```
+    >Call:
+    >lm(formula = mpg ~ cylinders * displacement + displacement:weight)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-16.1786  -2.5758  -0.2657   2.1653  19.6874
+    >
+    >Coefficients:
+    >                         Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept)             5.005e+01  2.361e+00  21.203  < 2e-16 ***
+    >cylinders              -3.295e+00  5.760e-01  -5.721 2.13e-08 ***
+    >displacement           -1.126e-01  1.692e-02  -6.653 9.82e-11 ***
+    >cylinders:displacement  1.639e-02  2.376e-03   6.898 2.16e-11 ***
+    >displacement:weight    -1.043e-05  2.795e-06  -3.731 0.000219 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 4.381 on 387 degrees of freedom
+    >Multiple R-squared:  0.6881,	Adjusted R-squared:  0.6849
+    >F-statistic: 213.5 on 4 and 387 DF,  p-value: < 2.2e-16
+    >
+    >```
+    > Todas las relaciones utilizadas (aquellas con mayor correlación) parecen ser estadisticamente significativas.
+
  - f) Try a few different transformations of the variables, such as log(X), √X, X2. Comment on your findings.
+    >```r
+    >fit.trans = lm(1/mpg~weight+horsepower+weight*horsepower)
+    >summary(fit.trans)
+    >```
+    >```
+    >    Call:
+    >    lm(formula = 1/mpg ~ weight + horsepower + weight * horsepower)
+    >
+    >    Residuals:
+    >           Min         1Q     Median         3Q        Max
+    >    -0.0204680 -0.0043873 -0.0000165  0.0039716  0.0295105
+    >
+    >    Coefficients:
+    >                        Estimate Std. Error t value Pr(>|t|)    
+    >    (Intercept)       -4.829e-04  4.281e-03  -0.113  0.91025    
+    >    weight             1.092e-05  1.414e-06   7.726 9.58e-14 ***
+    >    horsepower         1.370e-04  4.984e-05   2.748  0.00628 **
+    >    weight:horsepower  4.335e-09  1.215e-08   0.357  0.72144    
+    >    ---
+    >    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >    Residual standard error: 0.007181 on 388 degrees of freedom
+    >    Multiple R-squared:  0.8152,	Adjusted R-squared:  0.8138
+    >    F-statistic: 570.5 on 3 and 388 DF,  p-value: < 2.2e-16
+    >
+    >```
+    > Al transformar la respuesta a su inversa y usar weight, horsepower y su interacción se logra una R^2 cd 0.8152 y un RSE de 0.007181.
+    >```r
+    >png("ch3_ex9_f.png")
+    >par(mfrow = c(2, 2))
+    >plot(fit.trans)
+    >dev.off()
+    >```
+    >![ch3_ex9_f](ch3_ex9_f.png)
+    > Los residuales se ven más simetricos, la normalidad mejoró al inicio pero empeoró al final y el leverage sigue igual.
+
 10. This question should be answered using the Carseats data set.
+    >```r
+    >library(ISLR)
+    >data(Carseats)
+    >```
+
  - a) Fit a multiple regression model to predict Sales using Price,
 Urban, and US.
+    >```r
+    >fit.lm <- lm(Sales ~ Price + Urban + US, data=Carseats)
+    >summary(fit.lm)
+    >```
+    >```
+    >Call:
+    >lm(formula = Sales ~ Price + Urban + US, data = Carseats)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-6.9206 -1.6220 -0.0564  1.5786  7.0581
+    >
+    >Coefficients:
+    >             Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept) 13.043469   0.651012  20.036  < 2e-16 ***
+    >Price       -0.054459   0.005242 -10.389  < 2e-16 ***
+    >UrbanYes    -0.021916   0.271650  -0.081    0.936    
+    >USYes        1.200573   0.259042   4.635 4.86e-06 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 2.472 on 396 degrees of freedom
+    >Multiple R-squared:  0.2393,	Adjusted R-squared:  0.2335
+    >F-statistic: 41.52 on 3 and 396 DF,  p-value: < 2.2e-16
+    >```
+
  - b) Provide an interpretation of each coefficient in the model. Be
 careful—some of the variables in the model are qualitative!
+    > Price es estadisticamente significativo, mientras que NO hay diferencia entre si está en un sitio urbano o no, lo que sí importa es si fue hecho en los US.
+
  - c) Write out the model in equation form, being careful to handle the qualitative variables properly.
+    > Sales = 13.043469 -0.054459*Price -0.021916*Urban + 1.200573*US
+
  - d) For which of the predictors can you reject the null hypothesis H0 :βj =0?
- - e) Use the * and : symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?
+    > Para US y Price.
+
+ - e) Use the ``*`` and ``:`` symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?
+    >```r
+    >fit.idk <- lm(Sales ~ Price:US,data=Carseats)
+    >summary(fit.idk)
+    >```
+    >```
+    >Call:
+    >lm(formula = Sales ~ Price:US, data = Carseats)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-6.8707 -1.6584 -0.0954  1.6308  7.1742
+    >
+    >Coefficients:
+    >             Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept) 13.725517   0.618192   22.20   <2e-16 ***
+    >Price:USNo  -0.060262   0.005465  -11.03   <2e-16 ***
+    >Price:USYes -0.050323   0.005264   -9.56   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 2.473 on 397 degrees of freedom
+    >Multiple R-squared:  0.2372,	Adjusted R-squared:  0.2334
+    >F-statistic: 61.73 on 2 and 397 DF,  p-value: < 2.2e-16
+    >
+    >```
+    > Parece que la interacción US:Price es significativa
+
  - f) How well do the models in (a) and (e) fit the data?
+    > Muy mal, no llegan a explicar ni el 30% de la varianza.
  - g) Using the model from (e), obtain 95% confidence intervals for the coefficient(s).
+    >```r
+    >confint(fit.idk)
+    >```
+    >|             | 2.5 %       | 97.5 %      |
+    >|-------------|-------------|-------------|
+    >| (Intercept) | 12.51017730 | 14.94085594 |
+    >| Price:USNo  | -0.07100616 | -0.04951804 |
+    >| Price:USYes | -0.06067089 | -0.03997454 |
  - h) Is there evidence of outliers or high leverage observations in the model from (e)?  
+    >```r
+    >png("ch3_ex10_h.png")
+    >par(mfrow = c(2, 2))
+    >plot(fit.idk)
+    >dev.off()
+    >```
+    >![ch3_ex10_h](ch3_ex10_h.png)
+    >Sí, hay algunos outliers.
+
 11. In this problem we will investigate the t-statistic for the null hypoth- esis H0 : β = 0 in simple linear regression without an intercept. To begin, we generate a predictor x and a response y as follows.  
     ```r
-    > set . seed (1)
+    > set.seed (1)
     > x=rnorm(100)
     > y=2*x+rnorm(100)
     ```
-  - a) Perform a simple linear regression of y onto x, without an in- tercept. Report the coefficient estimate βˆ, the standard error of this coefficient estimate, and the t-statistic and p-value associ- ated with the null hypothesis H0 : β = 0. Comment on these results. (You can perform regression without an intercept using the command lm(y∼x+0).)
-  - b) Now perform a simple linear regression of x onto y without an intercept, and report the coefficient estimate, its standard error, and the corresponding t-statistic and p-values associated with the null hypothesis H0 : β = 0. Comment on these results.
+  - a) Perform a simple linear regression of y onto x, without an intercept. Report the coefficient estimate βˆ, the standard error of this coefficient estimate, and the t-statistic and p-value associ- ated with the null hypothesis H0 : β = 0. Comment on these results. (You can perform regression without an intercept using the command ``lm(y∼x+0)``.)
+    >```r
+    >fit = lm(y~x-1)
+    >summary(fit)
+    >```
+    >```    
+    >Call:
+    >lm(formula = y ~ x - 1)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-1.9154 -0.6472 -0.1771  0.5056  2.3109
+    >
+    >Coefficients:
+    >  Estimate Std. Error t value Pr(>|t|)    
+    >x   1.9939     0.1065   18.73   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.9586 on 99 degrees of freedom
+    >Multiple R-squared:  0.7798,	Adjusted R-squared:  0.7776
+    >F-statistic: 350.7 on 1 and 99 DF,  p-value: < 2.2e-16
+    >
+    >```
+    > El p-valor es muy bajo por lo que se dice que se rechaza la hipotesis nula.
+
+ - b) Now perform a simple linear regression of x onto y without an intercept, and report the coefficient estimate, its standard error, and the corresponding t-statistic and p-values associated with the null hypothesis H0 : β = 0. Comment on these results.
+    >```r
+    >fit = lm(x~y-1)
+    >summary(fit)
+    >```
+    >```
+    >Call:
+    >lm(formula = x ~ y - 1)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-0.8699 -0.2368  0.1030  0.2858  0.8938
+    >
+    >Coefficients:
+    >  Estimate Std. Error t value Pr(>|t|)    
+    >y  0.39111    0.02089   18.73   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.4246 on 99 degrees of freedom
+    >Multiple R-squared:  0.7798,	Adjusted R-squared:  0.7776
+    >F-statistic: 350.7 on 1 and 99 DF,  p-value: < 2.2e-16
+    >
+    >```
+    > El p-valor bajo, por lo que se puede rechazar la hipotesis nula.
+
   - c)  What is the relationship between the results obtained in (a) and (b)?
+    > El auste en ambos es lineal, esto es por que en realidad son la misma pero colocada en distintos ejes.
+
   - d) For the regression of Y onto X without an intercept, the t- statistic for H0 : β = 0 takes the form βˆ/SE(βˆ), where βˆ is given by (3.38), and where  
 
     ![Eq4](equation4.png)  
@@ -246,9 +445,63 @@ careful—some of the variables in the model are qualitative!
     (These formulas are slightly different from those given in Sec- tions 3.1.1 and 3.1.2, since here we are performing regression without an intercept.) Show algebraically, and confirm numeri- cally in R, that the t-statistic can be written as  
 
     ![Eq5](equation5.png)
-
+    >![Eq14](equation14.png)
+    >```r
+    >(sqrt(length(x)-1) * sum(x*y)) / (sqrt(sum(x*x) * sum(y*y) - (sum(x*y))^2))
+    >```
+    >```
+    >18.7259319374486
+    >```
  - e) Using the results from (d), argue that the t-statistic for the re- gression of y onto x is the same as the t-statistic for the regression of x onto y.
+    > Las funciones f(x,y) y f(y,x) son intercambiables.  
+
  - f) In R, show that when regression is performed with an intercept, the t-statistic for H0 : β1 = 0 is the same for the regression of y onto x as it is for the regression of x onto y.
+    >```r
+    >fit1 = lm(y~x)
+    >fit2 = lm(x~y)
+    >summary(fit1)
+    >summary(fit2)
+    >```
+    >```
+    >Call:
+    >lm(formula = y ~ x)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-1.8768 -0.6138 -0.1395  0.5394  2.3462
+    >
+    >Coefficients:
+    >            Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept) -0.03769    0.09699  -0.389    0.698    
+    >x            1.99894    0.10773  18.556   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.9628 on 98 degrees of freedom
+    >Multiple R-squared:  0.7784,	Adjusted R-squared:  0.7762
+    >F-statistic: 344.3 on 1 and 98 DF,  p-value: < 2.2e-16
+    >
+    >Call:
+    >lm(formula = x ~ y)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-0.90848 -0.28101  0.06274  0.24570  0.85736
+    >
+    >Coefficients:
+    >            Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept)  0.03880    0.04266    0.91    0.365    
+    >y            0.38942    0.02099   18.56   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.4249 on 98 degrees of freedom
+    >Multiple R-squared:  0.7784,	Adjusted R-squared:  0.7762
+    >F-statistic: 344.3 on 1 and 98 DF,  p-value: < 2.2e-16
+    >
+    >```
+    > La estadistica t y el p-valor son iguales.
+
 12. This problem involves simple linear regression without an intercept.
  - a) Recall that the coefficient estimate βˆ for the linear regression of Y onto X without an intercept is given by (3.38). Under what circumstance is the coefficient estimate for the regression of X onto Y the same as the coefficient estimate for the regression of Y onto X?
  - b) Generate an example in R with n = 100 observations in which the coefficient estimate for the regression of X onto Y is different from the coefficient estimate for the regression of Y onto X.
