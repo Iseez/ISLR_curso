@@ -60,26 +60,164 @@ _Iván Eduardo Sedeño Jiménez_
     > ![Eq12](equation12.png)
 
 7. It is claimed in the text that in the case of simple linear regression of Y onto X, the R^2 statistic (3.17) is equal to the square of the correlation between X and Y (3.18). Prove that this is the case. For simplicity, you may assume that x ̄ = y ̄ = 0.  
-    > ![Eq13](equation13.png)
+    > ![Eq13](equation13.png)  
+
 ## Practica  
-8. This question involves the use of simple linear regression on the Auto data set.
- - a) Use the lm() function to perform a simple linear regression with mpg as the response and horsepower as the predictor. Use the summary() function to print the results. Comment on the output. For example:  
+8. This question involves the use of simple linear regression on the ``Auto`` data set.
+ - a) Use the ``lm()`` function to perform a simple linear regression with ``mpg`` as the response and ``horsepower`` as the predictor. Use the`` summary()`` function to print the results.  
+ > ```r
+ >auto=na.omit(read.csv("Auto.csv",na.strings="?"))
+ >attach(auto)
+ >fit=lm(mpg~horsepower)
+ >summary(fit)
+ > ```  
+ > ```
+ >
+ >Call:
+ >lm(formula = mpg ~ horsepower)
+ >
+ >Residuals:
+ >     Min       1Q   Median       3Q      Max
+ >-13.5710  -3.2592  -0.3435   2.7630  16.9240
+ >
+ >Coefficients:
+ >          Estimate Std. Error t value Pr(>|t|)    
+ >(Intercept) 39.935861   0.717499   55.66   <2e-16 ***
+ >horsepower  -0.157845   0.006446  -24.49   <2e-16 ***
+ >---
+ >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+ >
+ >Residual standard error: 4.906 on 390 degrees of freedom
+ >Multiple R-squared:  0.6059,	Adjusted R-squared:  0.6049
+ >F-statistic: 599.7 on 1 and 390 DF,  p-value: < 2.2e-16
+ >```
+
+    Comment on the output. For example:  
     1. Is there a relationship between the predictor and the re- sponse?
+    > Basandonos en los p-valores, sí.
+
     2. How strong is the relationship between the predictor and the response?
+    > El p-valor es muy alto, así que están muy relacionadas.
+
     3. Is the relationship between the predictor and the response positive or negative?
+    > Es negativa.
+
     4. What is the predicted mpg associated with a horsepower of 98? What are the associated 95 % confidence and prediction intervals?
- - b) Plot the response and the predictor. Use the abline() function to display the least squares regression line.
- - c) Use the plot() function to produce diagnostic plots of the least squares regression fit. Comment on any problems you see with the fit.
-9. This question involves the use of multiple linear regression on the Auto data set.
+    > ```r
+    > predict(fit, data.frame(horsepower = 98), interval = "prediction")
+    >predict(fit, data.frame(horsepower = 95), interval = "confidence")
+    >predict(fit, data.frame(horsepower = 95), interval = "prediction")
+    > ```
+    >```
+    >Predicción 98:
+    >A matrix: 1 × 3 of type dbl
+    >fit	lwr	upr
+    >24.46708	14.8094	34.12476
+    >Confianza 95:
+    >A matrix: 1 × 3 of type dbl
+    >fit	lwr	upr
+    >24.94061	24.4389	25.44232
+    >Predicción 95:
+    >A matrix: 1 × 3 of type dbl
+    >fit	lwr	upr
+    >24.94061	15.28253	34.59869
+    >```
+
+ - b) Plot the response and the predictor. Use the ```abline()``` function to display the least squares regression line.
+    >```r
+    >png("ch3_ex8_b.png")
+    >plot(horsepower, mpg, xlab = "horsepower", ylab = "mpg", col = "black")
+    >abline(fit, col = "red")
+    >dev.off()
+    >```
+    >![ch3_ex8_b](ch3_ex8_b.png)
+ - c) Use the ``plot()`` function to produce diagnostic plots of the least squares regression fit. Comment on any problems you see with the fit.
+    >```r
+    >png("ch3_ex8_c.png")
+    >par(mfrow = c(2, 2))
+    >plot(fit)
+    >dev.off()
+    >```
+    >![ch3_ex8_c](ch3_ex8_c.png)
+    > Se puede observar que la distribución no es lineal, además de que en los residuales hay punto muy lejanos que introducen erros.
+
+9. This question involves the use of multiple linear regression on the ``Auto`` data set.
  - a) Produce a scatterplot matrix which includes all of the variables in the data set.
- - b) Compute the matrix of correlations between the variables using the function cor(). You will need to exclude the name variable, which is qualitative.
- - c) Use the lm() function to perform a multiple linear regression with mpg as the response and all other variables except name as the predictors. Use the summary() function to print the results.  
- Comment on the output. For instance:  
+    > ```r
+    > png("ch3_ex9_ca.png")
+    >pairs(auto)
+    >dev.off()
+    > ```
+    >![ch3_ex9_ca](ch3_ex9_ca.png)
+ - b) Compute the matrix of correlations between the variables using the function ```cor()```. You will need to exclude the name variable, which is qualitative.
+    >```r
+    >cor(auto[-9])
+    >```
+    > |              | mpg        | cylinders  | displacement | horsepower | weight     | acceleration | year       | origin     |
+    >|--------------|------------|------------|--------------|------------|------------|--------------|------------|------------|
+    >| mpg          | 1.0000000  | -0.7776175 | -0.8051269   | -0.7784268 | -0.8322442 | 0.4233285    | 0.5805410  | 0.5652088  |
+    >| cylinders    | -0.7776175 | 1.0000000  | 0.9508233    | 0.8429834  | 0.8975273  | -0.5046834   | -0.3456474 | -0.5689316 |
+    >| displacement | -0.8051269 | 0.9508233  | 1.0000000    | 0.8972570  | 0.9329944  | -0.5438005   | -0.3698552 | -0.6145351 |
+    >| horsepower   | -0.7784268 | 0.8429834  | 0.8972570    | 1.0000000  | 0.8645377  | -0.6891955   | -0.4163615 | -0.4551715 |
+    >| weight       | -0.8322442 | 0.8975273  | 0.9329944    | 0.8645377  | 1.0000000  | -0.4168392   | -0.3091199 | -0.5850054 |
+    >| acceleration | 0.4233285  | -0.5046834 | -0.5438005   | -0.6891955 | -0.4168392 | 1.0000000    | 0.2903161  | 0.2127458  |
+    >| year         | 0.5805410  | -0.3456474 | -0.3698552   | -0.4163615 | -0.3091199 | 0.2903161    | 1.0000000  | 0.1815277  |
+    >| origin       | 0.5652088  | -0.5689316 | -0.6145351   | -0.4551715 | -0.5850054 | 0.2127458    | 0.1815277  | 1.0000000  |
+
+ - c) Use the ``lm()`` function to perform a multiple linear regression with ``mpg`` as the response and all other variables except name as the predictors. Use the ``summary()`` function to print the results.  
+    >```r
+    >fit.all = lm(mpg ~ . - name, data = auto)
+    >summary(fit.all)
+    >```
+    >```
+    >
+    >Call:
+    >lm(formula = mpg ~ . - name, data = auto)
+    >
+    >Residuals:
+    >    Min      1Q  Median      3Q     Max
+    >-9.5903 -2.1565 -0.1169  1.8690 13.0604
+    >
+    >Coefficients:
+    >               Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept)  -17.218435   4.644294  -3.707  0.00024 ***
+    >cylinders     -0.493376   0.323282  -1.526  0.12780    
+    >displacement   0.019896   0.007515   2.647  0.00844 **
+    >horsepower    -0.016951   0.013787  -1.230  0.21963    
+    >weight        -0.006474   0.000652  -9.929  < 2e-16 ***
+    >acceleration   0.080576   0.098845   0.815  0.41548    
+    >year           0.750773   0.050973  14.729  < 2e-16 ***
+    >origin         1.426141   0.278136   5.127 4.67e-07 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 3.328 on 384 degrees of freedom
+    >Multiple R-squared:  0.8215,	Adjusted R-squared:  0.8182
+    >F-statistic: 252.4 on 7 and 384 DF,  p-value: < 2.2e-16
+    >
+    >```
+
+    Comment on the output. For instance:  
     1. Is there a relationship between the predictors and the re- sponse?
+    > Parece sí haber una relación, la R^2 indica que se está explicando el 82.15% de la varianza de los datos, lo cual es bueno.
+
     2. Which predictors appear to have a statistically significant relationship to the response?
+    > No todos los predictores están relacionados con la respuesta, solo weight, year, origin y en menor medida displacement.
+
     3. What does the coefficient for the year variable suggest?
- - d) Use the plot() function to produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit. Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?
- - e) Use the * and : symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?
+    > Nos dice que entre más reciente el auto más millas podrá recorrer en promedio.
+
+ - d) Use the ``plot()`` function to produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit. Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?
+    > ```r
+    > png("ch3_ex9_d.png")
+    >par(mfrow = c(2, 2))
+    >plot(fit.all)
+    >dev.off()
+    > ```
+    > ![ch3_ex9_d](ch3_ex9_d.png)
+    > Sí, la observación 14 tiene demasiado leverage.
+
+ - e) Use the ``*`` and ``:`` symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically significant?
  - f) Try a few different transformations of the variables, such as log(X), √X, X2. Comment on your findings.
 10. This question should be answered using the Carseats data set.
  - a) Fit a multiple regression model to predict Sales using Price,
