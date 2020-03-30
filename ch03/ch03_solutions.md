@@ -677,10 +677,11 @@ careful—some of the variables in the model are qualitative!
     >![ch3_ex13_f](ch3_ex13_f.png)
 
  - g) Now fit a polynomial regression model that predicts y using x and x2. Is there evidence that the quadratic term improves the model fit? Explain your answer.
-    >``r
+    >```r
     >ajuste = lm(y~x+I(x^2))
     >summary(ajuste)
     >```
+    >
     >```
     >    Call:
     >    lm(formula = y ~ x + I(x^2))
