@@ -74,3 +74,67 @@ reg2.a = lm(x~y-1)
 summary(reg1.a)
 summary(reg2.a)
 sum(x^2) ==sum(y^2)
+
+set.seed(1)
+x=rnorm(100)
+
+eps = rnorm(100, 0, sqrt(0.25))
+
+y = -1 + 0.5*x + eps
+
+length(y)
+
+png("ch3_ex13_d.png")
+plot(x,y)
+dev.off()
+fit = lm(y~x)
+summary(fit)
+png("ch3_ex13_f.png")
+plot(x, y)
+abline(fit, lwd=3, col=1)
+abline(-1, 0.5, lwd=3, col=2)
+legend(-1, legend = c("Fit", "Funcion"), col=1:2, lwd=4)
+dev.off()
+
+ajuste = lm(y~x+I(x^2))
+summary(ajuste)
+
+png("ch3_ex13_h.png")
+set.seed(1)
+eps.1 = rnorm(100, 0, 0.125)
+x.1 = rnorm(100)
+y.1 = -1 + 0.5*x.1 + eps.1
+plot(x.1, y.1)
+dev.off()
+
+fit1= lm(y.1~x.1)
+summary(fit1)
+
+png("ch3_ex13_i.png")
+plot(x.1, y.1)
+abline(fit1, lwd=1, col=1)
+abline(-1, 0.5, lwd=1, col=2)
+legend(-1,0, legend = c("Fit", "Funcion"), col=1:2, lwd=6)
+dev.off()
+
+png("ch3_ex13_ii.png")
+set.seed(1)
+eps.2 = rnorm(100, 0, 0.5)
+x.2 = rnorm(100)
+y.2 = -1 + 0.5*x.2 + eps.2
+plot(x.2, y.2)
+dev.off()
+
+fit2= lm(y.2~x.2)
+summary(fit2)
+
+png("ch3_ex13_iii.png")
+plot(x.2, y.2)
+abline(fit, lwd=1, col=1)
+abline(-1, 0.5, lwd=1, col=2)
+legend(-1,0, legend = c("Fit", "Funcion"), col=1:2, lwd=6)
+dev.off()
+
+confint(fit)
+confint(fit1)
+confint(fit2)

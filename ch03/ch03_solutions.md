@@ -5,7 +5,7 @@ _Iván Eduardo Sedeño Jiménez_
 ## Teoría  
 
 1. Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.
-    >![tab3_4](tab3_4png)  
+    >![tab3_4](tab3_4.png)  
     >Parece ser que contrario a radio y TV, newspaper no tiene una relación con la variable sales.  
 
 2. Carefully explain the differences between the KNN classifier and KNN regression methods.
@@ -608,19 +608,219 @@ careful—some of the variables in the model are qualitative!
 
 13. In this exercise you will create some simulated data and will fit simple linear regression models to it. Make sure to use set.seed(1) prior to starting part (a) to ensure consistent results.
  - a) Using the rnorm() function, create a vector, x, containing 100 observations drawn from a N(0,1) distribution. This represents a feature, X.
+    >```r
+    >set.seed(1)
+    >x=rnorm(100)
+    >```
+
  - b)Using the rnorm() function, create a vector, eps, containing 100 observations drawn from a N(0,0.25) distribution i.e. a normal distribution with mean zero and variance 0.25.
+    >```r
+    >eps = rnorm(100, 0, sqrt(0.25))
+    >```
+
  - c) Using x and eps, generate a vector y according to the model
 
      ![E6](equation6.png) (3.39)
 
      What is the length of the vector y? What are the values of β0 and β1 in this linear model?
+     >```r
+     >y = -1 + 0.5*x + eps
+     >length(y)
+     >```
+     > Tiene longitud 100.
+
  - d) Create a scatterplot displaying the relationship between x and y. Comment on what you observe.
+    >```r
+    >png("ch3_ex13_d.png")
+    >plot(x,y)
+    >dev.off()
+    >```
+    >![ch3_ex13_d](ch3_ex13_d.png)
+    > Se puede ver una relación lineal positiva, aunque también se puede ver que los datos están dispersados, esto por la varianza dada.
+
  - e) Fit a least squares linear model to predict y using x. Comment on the model obtained. How do βˆ0 and βˆ1 compare to β0 and β1?
- - f) Display the least squares line on the scatterplot obtained in (d). Draw the population regression line on the plot, in a different color. Use the legend() command to create an appropriate leg- end.
+    >```r
+    >fit = lm(y~x)
+    >summary(fit)
+    >```
+    >```
+    >    Call:
+    >    lm(formula = y ~ x)
+    >
+    >    Residuals:
+    >         Min       1Q   Median       3Q      Max
+    >    -0.93842 -0.30688 -0.06975  0.26970  1.17309
+    >
+    >    Coefficients:
+    >                Estimate Std. Error t value Pr(>|t|)    
+    >    (Intercept) -1.01885    0.04849 -21.010  < 2e-16 ***
+    >    x            0.49947    0.05386   9.273 4.58e-15 ***
+    >    ---
+    >    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >    Residual standard error: 0.4814 on 98 degrees of freedom
+    >    Multiple R-squared:  0.4674,	Adjusted R-squared:  0.4619
+    >    F-statistic: 85.99 on 1 and 98 DF,  p-value: 4.583e-15
+    >
+    >```
+    > Se puede ver que el oceficiente es cercano a 0.5 y la intercepción es cercano a 1, mientras que de  la estadistica F el p-valor es casi 0, rechazando la hipótesis nula.
+
+ - f) Display the least squares line on the scatterplot obtained in (d). Draw the population regression line on the plot, in a different color. Use the legend() command to create an appropriate legend.
+    >```r
+    >png("ch3_ex13_f.png")
+    >plot(x, y)
+    >abline(fit, lwd=3, col=1)
+    >abline(-1, 0.5, lwd=3, col=2)
+    >legend(-1, legend = c("Fit", "Funcion"), col=1:2, lwd=4)
+    >dev.off()
+    >```
+    >![ch3_ex13_f](ch3_ex13_f.png)
+
  - g) Now fit a polynomial regression model that predicts y using x and x2. Is there evidence that the quadratic term improves the model fit? Explain your answer.
+    >``r
+    >ajuste = lm(y~x+I(x^2))
+    >summary(ajuste)
+    >```
+    >```
+    >    Call:
+    >    lm(formula = y ~ x + I(x^2))
+    >
+    >    Residuals:
+    >         Min       1Q   Median       3Q      Max
+    >    -0.98252 -0.31270 -0.06441  0.29014  1.13500
+    >
+    >    Coefficients:
+    >                Estimate Std. Error t value Pr(>|t|)    
+    >    (Intercept) -0.97164    0.05883 -16.517  < 2e-16 ***
+    >    x            0.50858    0.05399   9.420  2.4e-15 ***
+    >    I(x^2)      -0.05946    0.04238  -1.403    0.164    
+    >    ---
+    >    Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >    Residual standard error: 0.479 on 97 degrees of freedom
+    >    Multiple R-squared:  0.4779,	Adjusted R-squared:  0.4672
+    >    F-statistic:  44.4 on 2 and 97 DF,  p-value: 2.038e-14
+    >
+    >```
+    > Se puede ver que el termino cuadrado no ajusta bien al modelo.
+
  - h) Repeat (a)–(f) after modifying the data generation process in such a way that there is less noise in the data. The model (3.39) should remain the same. You can do this by decreasing the vari- ance of the normal distribution used to generate the error term ε in (b). Describe your results.
+    >```r
+    >set.seed(1)
+    >eps.1 = rnorm(100, 0, 0.125)  
+    >x.1 = rnorm(100)
+    >y.1 = -1 + 0.5*x.1 + eps.1
+    >plot(x.1, y.1)
+    >```
+    >![ch3_ex13_h](ch3_ex13_h.png)
+    >```r
+    >ajuste_1= lm(y_1~x_1)   #hacemos un ajuste de curva entre los >predictores y_1 y x_1
+    >summary(ajuste_1)
+    ```
+    >```
+    >Call:
+    >lm(formula = y.1 ~ x.1)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-0.29052 -0.07545  0.00067  0.07288  0.28664
+    >
+    >Coefficients:
+    >            Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept) -0.98639    0.01129  -87.34   <2e-16 ***
+    >x.1          0.49988    0.01184   42.22   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.1128 on 98 degrees of freedom
+    >Multiple R-squared:  0.9479,	Adjusted R-squared:  0.9474
+    >F-statistic:  1782 on 1 and 98 DF,  p-value: < 2.2e-16
+    >
+    >```
+    > Los coeficientes encontrados por la regresión son muy cercanos a los establecidos por ña función.
+    > ```r
+    > png("ch3_ex13_i.png")
+    >plot(x.1, y.1)
+    >abline(fit, lwd=1, col=1)
+    >abline(-1, 0.5, lwd=1, col=2)
+    >legend(-1,0, legend = c("Fit", "Funcion"), col=1:2, lwd=6)
+    >dev.off()
+    > ```
+    > ![ch3_ex13_i](ch3_ex13_i.png)
+    > El error a disminuido, ya que redujimos la varianza.
+
  - i) Repeat (a)–(f) after modifying the data generation process in such a way that there is more noise in the data. The model (3.39) should remain the same. You can do this by increasing the variance of the normal distribution used to generate the error term ε in (b). Describe your results.
+    >```r
+    >png("ch3_ex13_ii.png")
+    >set.seed(1)
+    >eps.2 = rnorm(100, 0, 0.5)
+    >x.2 = rnorm(100)
+    >y.2 = -1 + 0.5*x.2 + eps.2
+    >plot(x.2, y.2)
+    >dev.off()
+    >
+    >fit2= lm(y.2~x.2)
+    >summary(fit2)
+    >
+    >png("ch3_ex13_iii.png")
+    >plot(x.2, y.2)
+    >abline(fit, lwd=1, col=1)
+    >abline(-1, 0.5, lwd=1, col=2)
+    >legend(-1,0, legend = c("Fit", "Funcion"), col=1:2, lwd=6)
+    >dev.off()
+    >```
+    >```
+    >pdf: 2
+    >Call:
+    >lm(formula = y.2 ~ x.2)
+    >
+    >Residuals:
+    >     Min       1Q   Median       3Q      Max
+    >-1.16208 -0.30181  0.00268  0.29152  1.14658
+    >
+    >Coefficients:
+    >                Estimate Std. Error t value Pr(>|t|)    
+    >(Intercept) -0.94557    0.04517  -20.93   <2e-16 ***
+    >x.2          0.49953    0.04736   10.55   <2e-16 ***
+    >---
+    >Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    >
+    >Residual standard error: 0.4514 on 98 degrees of freedom
+    >Multiple R-squared:  0.5317,	Adjusted R-squared:  0.5269
+    >F-statistic: 111.2 on 1 and 98 DF,  p-value: < 2.2e-16
+    >pdf: 2
+    >
+    >```
+    >![ch3_ex13_iii](ch3_ex13_ii.png)  
+    >![ch3_ex13_iii](ch3_ex13_iii.png)  
+    > Se puede observar que el error a aumentado en proporcion de lo que cambiamos en la función.
+
  - j) What are the confidence intervals for β0 and β1 based on the original data set, the noisier data set, and the less noisy data set? Comment on your results.
+    >```r
+    >confint(fit)
+    >```
+    >|             | 2.5 %      | 97.5 %     |
+    >|-------------|------------|------------|
+    >| (Intercept) | -1.1150804 | -0.9226122 |
+    >| x           | 0.3925794  | 0.6063602  |  
+    >
+    >```r
+    >confint(fit1)
+    >```  
+    >
+    >|             | 2.5 %     | 97.5 %     |
+    >|-------------|-----------|------------|
+    >| (Intercept) | -1.008805 | -0.9639819 |
+    >| x.1         | 0.476387  | 0.5233799  |  
+    >
+    >```r
+    >confint(fit2)
+    >```
+    >
+    >|             | 2.5 %      | 97.5 %     |
+    >|-------------|------------|------------|
+    >| (Intercept) | -1.0352203 | -0.8559276 |
+    >| x.2         | 0.4055479  | 0.5935197  |
 14. This problem focuses on the collinearity problem.
  - a) Perform the following commands in R:
     ```r
