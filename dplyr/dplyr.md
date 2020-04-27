@@ -83,9 +83,9 @@ flights %>% mutate(air_time = ifelse(is.na(air_time), 0, air_time))   %>% filter
 ## Ejercicios
 1. Which plane (check the tail number) flew out of each New York airport the most?
 > ```r
-flights %>% filter(tailnum != "NA") %>%
-  group_by(origin,tailnum) %>%  summarize(sum = n()) %>%
-  arrange(origin,desc(sum))
+>flights %>% filter(tailnum != "NA") %>%
+>  group_by(origin,tailnum) %>%  summarize(sum = n()) %>%
+>  arrange(origin,desc(sum))
 > ```
 > El resultado se ve algo así:
 > | origin | tailnum | sum |
@@ -98,17 +98,17 @@ flights %>% filter(tailnum != "NA") %>%
 
 2. What was the shortest flight out of each airport in terms of distance? In terms of duration?
    1. Por tiempo:
-      >```r
-      >flights %>% select(origin,flight,air_time) %>%
-      > group_by(origin) %>% filter(air_time != "NA") %>%
-      > arrange(air_time) %>% slice(1)
-      >```
-      > E output es el siguiente:
-      > | origin | flight | air_time |
-      >|--------|--------|----------|
-      >| EWR    | 4368   | 20       |
-      >| JFK    | 3650   | 21       |
-      >| LGA    | 2132   | 21       |
+   >```r
+   >flights %>% select(origin,flight,air_time) %>%
+   > group_by(origin) %>% filter(air_time != "NA") %>%
+   > arrange(air_time) %>% slice(1)
+   >```
+   > E output es el siguiente:
+   > | origin | flight | air_time |
+   >|--------|--------|----------|
+   >| EWR    | 4368   | 20       |
+   >| JFK    | 3650   | 21       |
+   >| LGA    | 2132   | 21       |
 
    2. Por distancia:
    >```r
