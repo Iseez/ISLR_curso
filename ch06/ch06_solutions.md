@@ -13,19 +13,19 @@ _Iván Eduardo Sedeño Jiménez_
 
  - c) True or False:
     1. The predictors in the k-variable model identified by forward stepwise are a subset of the predictors in the (k+1)-variable model identified by forward stepwise selection.
-      > Verdadero
+       > Verdadero
 
     2. The predictors in the k-variable model identified by back- ward stepwise are a subset of the predictors in the (k + 1)- variable model identified by backward stepwise selection.
-      > Verdadero
+       > Verdadero
 
     3. The predictors in the k-variable model identified by back- ward stepwise are a subset of the predictors in the (k + 1)- variable model identified by forward stepwise selection.
-      > Falso
+       > Falso
 
     4. The predictors in the k-variable model identified by forward stepwise are a subset of the predictors in the (k+1)-variable model identified by backward stepwise selection.
-     > Falso
+       > Falso
 
     5. The predictors in the k-variable model identified by best subset are a subset of the predictors in the (k + 1)-variable model identified by best subset selection.
-    > Falso
+       > Falso
 
 2. For parts (a) through (c), indicate which of i. through iv. is correct. Justify your answer.
  - a) The lasso, relative to least squares, is:
