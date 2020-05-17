@@ -75,10 +75,10 @@ _Iván Eduardo Sedeño Jiménez_
     3. Steadily increase.
     4. Steadily decrease.
     5. Remain constant.
-    > La no. __COMPLETAR__
+    > La no. 3 escierta, al incrementar λ, las β's se van a 0, incrementando lentamente el error para el ret de training.
 
  - b) Repeat (a) for test RSS.
-    > La no. __COMPLETAR__
+    > La no. 2 es cierta, inicialmente el modelo comienza a reducir su overfitting al set de training, pero al seguir aumentando λ el modelo se vuelve demasiado simple, aumentando el RSS.
 
  - c) Repeat (a) for variance.
     > La no. 4 es cierta, al restringir más el modelo la varianza disminuirá.
@@ -92,7 +92,7 @@ _Iván Eduardo Sedeño Jiménez_
 5. It is well-known that ridge regression tends to give similar coefficient values to correlated variables, whereas the lasso may give quite dif- ferent coefficient values to correlated variables. We will now explore this property in a very simple setting.  
    Suppose that n = 2, p = 2, x11 = x12, x21 = x22. Furthermore, suppose that y1+y2=0 and x11+x21=0 and x12+x22=0, so that the estimate for the intercept in a least squares, ridge regression, or lasso model is zero: βˆ0 = 0.
  - a)Write out the ridge regression optimization problem in this setting.
-    > Minimizar:  
+    > El problema de optimización es minimizar la siguiente ecuación:  
     > ![ch6_ex5_a](ch6_ex5_a.png)  
  - b) Argue that in this setting, the ridge coefficient estimates satisfy βˆ 1 = βˆ 2 .
     > Expandiendo el polinomio anterior:  
@@ -108,9 +108,15 @@ _Iván Eduardo Sedeño Jiménez_
     > Se observa que tomando la derivada parcial con respecto a __β_2____ se obtendría la misma ecuación.  
     > ![ch6_ex5_b6](ch6_ex5_b6.png)  
     > Por lo tanto se observa que la igualdad se cumple:  
-    > ![ch6_ex5_b7](ch6_ex5_b7.png)
+    > ![ch6_ex5_b7](ch6_ex5_b7.png)  
+
  - c) Write out the lasso optimization problem in this setting.
- - d) Argue that in this setting, the lasso coefficients βˆ1 and βˆ2 are not unique—in other words, there are many possible solutions to the optimization problem in (c). Describe these solutions.  
+    > Minimizar la siguiente expresión:
+    > ![ch6_ex5_c](ch6_ex5_c.png)  
+ - d) Argue that in this setting, the lasso coefficients βˆ1 and βˆ2 are not unique, in other words, there are many possible solutions to the optimization problem in (c). Describe these solutions.  
+    > Siguiendo el razonamiento del inciso b,  y observando la derivada con respecto a β se puede observar que
+    > ![ch6_ex5_d](ch6_ex5_d.png)  
+    > Recordando que dado de graficar Lasso se obtiene un diamante, graficando la optimización se obtendrán lineas paralelas al diamante, siendo solución todas los puntos en que se toquen las lineas con el diamante.
 6. We will now explore (6.12) and (6.13) further.
  - a) Consider (6.12) with p = 1. For some choice of y1 and λ > 0, plot (6.12) as a function of β1. Your plot should confirm that (6.12) is solved by (6.14).
  - b) Consider (6.13) with p = 1. For some choice of y1 and λ > 0, plot (6.13) as a function of β1. Your plot should confirm that (6.13) is solved by (6.15).
@@ -123,6 +129,8 @@ p(β) = 1/2b exp(−|β|/b). Write out the posterior for β in this 2b setting.
  - c) Argue that the lasso estimate is the mode for β under this pos- terior distribution.
  - d) Now assume the following prior for β: β1, . . . , βp are independent and identically distributed according to a normal distribution with mean zero and variance c. Write out the posterior for β in this setting.
  - e) Argue that the ridge regression estimate is both the mode and the mean for β under this posterior distribution.
+
+## Practica
 8. In this exercise, we will generate simulated data, and will then use this data to perform best subset selection.
  - a) Use the ``rnorm()`` function to generate a predictor X of length n = 100, as well as a noise vector ε of length n = 100.
  - b) Generate a response vector Y of length n = 100 according to the model  
