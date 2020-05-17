@@ -75,14 +75,40 @@ _Iván Eduardo Sedeño Jiménez_
     3. Steadily increase.
     4. Steadily decrease.
     5. Remain constant.
-- b) Repeat (a) for test RSS.
-- c) Repeat (a) for variance.
-- d) Repeat (a) for (squared) bias.
-- e) Repeat (a) for the irreducible error.
-5. It is well-known that ridge regression tends to give similar coefficient values to correlated variables, whereas the lasso may give quite dif- ferent coefficient values to correlated variables. We will now explore this property in a very simple setting.
-   Suppose that n = 2, p = 2, x11 = x12, x21 = x22. Furthermore, supposethaty1+y2 =0andx11+x21 =0andx12+x22 =0,sothat the estimate for the intercept in a least squares, ridge regression, or lasso model is zero: βˆ0 = 0.
- - a)Write out the ridge regression optimization problem in this set- ting.
+    > La no. __COMPLETAR__
+
+ - b) Repeat (a) for test RSS.
+    > La no. __COMPLETAR__
+
+ - c) Repeat (a) for variance.
+    > La no. 4 es cierta, al restringir más el modelo la varianza disminuirá.
+
+ - d) Repeat (a) for (squared) bias.
+    > La no. 3 es cierta, ocurre lo contrario a la varianza.
+
+ - e) Repeat (a) for the irreducible error.
+    > La no. 5 es cieta, este error es constante.
+
+5. It is well-known that ridge regression tends to give similar coefficient values to correlated variables, whereas the lasso may give quite dif- ferent coefficient values to correlated variables. We will now explore this property in a very simple setting.  
+   Suppose that n = 2, p = 2, x11 = x12, x21 = x22. Furthermore, suppose that y1+y2=0 and x11+x21=0 and x12+x22=0, so that the estimate for the intercept in a least squares, ridge regression, or lasso model is zero: βˆ0 = 0.
+ - a)Write out the ridge regression optimization problem in this setting.
+    > Minimizar:  
+    > ![ch6_ex5_a](ch6_ex5_a.png)  
  - b) Argue that in this setting, the ridge coefficient estimates satisfy βˆ 1 = βˆ 2 .
+    > Expandiendo el polinomio anterior:  
+    > ![ch6_ex5_b1](ch6_ex5_b1.png)  
+    > Y derivando con respecto a __β_1__ e igualando a 0:  
+    > ![ch6_ex5_b2](ch6_ex5_b2.png)  
+    > Igualando x11 = x12 = x1, dividiendo entre 2 y factorizando:  
+    > ![ch6_ex5_b3](ch6_ex5_b3.png)  
+    > Sumando  2βˆ_1x_1x_2 y 2βˆ_2x_1x_2 para completar los trinomios:  
+    > ![ch6_ex5_b4](ch6_ex5_b4.png)  
+    > Tomando en cuenta las condiciones iniciales, se eliminan los primeros dos terminos del lado izquierdo:  
+    > ![ch6_ex5_b5](ch6_ex5_b5.png)  
+    > Se observa que tomando la derivada parcial con respecto a __β_2____ se obtendría la misma ecuación.  
+    > ![ch6_ex5_b6](ch6_ex5_b6.png)  
+    > Por lo tanto se observa que la igualdad se cumple:  
+    > ![ch6_ex5_b7](ch6_ex5_b7.png)
  - c) Write out the lasso optimization problem in this setting.
  - d) Argue that in this setting, the lasso coefficients βˆ1 and βˆ2 are not unique—in other words, there are many possible solutions to the optimization problem in (c). Describe these solutions.  
 6. We will now explore (6.12) and (6.13) further.
