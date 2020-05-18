@@ -654,4 +654,4 @@ We will now explore this in a simulated data set.
     >Por lo que escogería el modelo obtenido mediante Lasso
 
  - c) Does your chosen model involve all of the features in the data set? Why or why not?
-    >No, ya que lasso además hace selección de variable
+    >No, ya que lasso además hace selección de variables
