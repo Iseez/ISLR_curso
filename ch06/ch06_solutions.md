@@ -153,14 +153,13 @@ _Iván Eduardo Sedeño Jiménez_
    > Pudiendose apreciar que la función se minimiza en β = y - l/2
 
 7. We will now derive the Bayesian connection to the lasso and ridge regression discussed in Section 6.2.2.
- - a) Suppose that yi = β0 +(Sum^p_j=1) xi,j βj +εi where ε1, . . . , εn are inde- pendent and identically distributed from a N(0,σ^2) distribution. Write out the likelihood for the data.
-    > __Complete__
+ - a) Suppose that yi = β0 +(Sum^p_j=1) xi,j βj +εi where ε1, . . . , εn are independent and identically distributed from a N(0,σ^2) distribution. Write out the likelihood for the data.
+    >La verosimilitud luce como:  
+    >![equation6](equation6.png)  
 
- - b) Assume the following prior for β: β1, . . . , βp are independent
-and identically distributed according to a double-exponential
-distribution with mean 0 and common scale parameter b: i.e.
-p(β) = 1/2b exp(−|β|/b). Write out the posterior for β in this 2b setting.
-    > __Complete__
+ - b) Assume the following prior for β: β1, . . . , βp are independent and identically distributed according to a double exponential distribution with mean 0 and common scale parameter b: i.e. p(β) = 1/2b exp(−|β|/b). Write out the posterior for β in this 2b setting.
+    >Sustituyendo tomando en cuanta la función de probabilidad mencionada  
+    >![equation7](equation7.png)
 
  - c) Argue that the lasso estimate is the mode for β under this pos- terior distribution.
     > __Complete__
