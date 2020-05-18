@@ -467,19 +467,90 @@ and perform best subset selection and the lasso. Discuss the results obtained.
    >dev.off()
    >```
    >![ch6_ex9_g](ch6_ex9_g.png)
-   >Parece ser que el menor RSS se alacanza con mínimos cuadrados, sin embargo no hay mucha diferencia entre modelos, exceptuando PCR, que tiene un RSS muy alto comparandolo con el resto de los modelos.
+   >Parece ser que el menor RSS se alacanza con mínimos cuadrados, sin embargo no hay mucha diferencia entre modelos, exceptuando PCR, que tiene un RSS muy alto comparandolo con el resto de los modelos.  
 
-10. We have seen that as the number of features used in a model increases, the training error will necessarily decrease, but the test error may not.  
-   We will now explore this in a simulated data set.
-- a) Generate a data set with p = 20 features, n = 1,000 observa- tions, and an associated quantitative response vector generated according to the model Y = Xβ+ε, where β has some elements that are exactly equal to zero.
-- b) Splityourdatasetintoatrainingsetcontaining100observations and a test set containing 900 observations.
-- c) Perform best subset selection on the training set, and plot the training set MSE associated with the best model of each size.
-- d) Plot the test set MSE associated with the best model of each size.
-- e) For which model size does the test set MSE take on its minimum value? Comment on your results. If it takes on its minimum value for a model containing only an intercept or a model containing all of the features, then play around with the way that you are generating the data in (a) until you come up with a scenario in which the test set MSE is minimized for an intermediate model size.
-- f) How does the model at which the test set MSE is minimized compare to the true model used to generate the data? Comment on the coefficient values.
-- g) Create a plot displaying ![equation5](equation5.png)
+10. We have seen that as the number of features used in a model increases, the training error will necessarily decrease, but the test error may not.
+We will now explore this in a simulated data set.  
+ - a) Generate a data set with p = 20 features, n = 1,000 observations, and an associated quantitative response vector generated according to the model Y = Xβ+ε, where β has some elements that are exactly equal to zero.
+    > ```r
+    >p = 20
+    >n = 1000
+    >x = matrix(rnorm(n * p), n, p)
+    >b = rnorm(p)
+    >b[1] = 0
+    >b[7] = 0
+    >b[9] = 0
+    >b[13] = 0
+    >e = rnorm(p)
+    >y = x %*% b + e
+    > ```
+
+ - b) Split your dataset into  atraining set containing 100 observations and a test set containing 900 observations.
+    >```r
+    >index = sample(seq(1000), 100, replace = FALSE)
+    >y.train = y[index, ]
+    >y.test = y[-index, ]
+    >x.train = x[index, ]
+    >x.test = x[-index, ]
+    >```
+ - c) Perform best subset selection on the training set, and plot the training set MSE associated with the best model of each size.
+    >```r
+    >>reg = regsubsets(y ~ ., data = D.train, nvmax = p)
+    >errors = rep(0, p)
+    >x_cols = colnames(x, do.NULL = FALSE, prefix = "x.")
+    >for (i in 1:p) {
+    >     coefs = coef(reg, id = i)
+    >     pred = as.matrix(x.train[, x_cols %in% names(coefs)]) %*% coefs[names(coefs) %in% x_cols]
+    >     errors[i] = mean((y.train - pred)^2)
+    >}
+    >png("ch6_ex10_c.png")
+    >plot(errors, ylab = "MSE de training", type = "b")
+    >dev.off()
+    >```
+    >![ch6_ex10_c](ch6_ex10_c.png)  
+
+ - d) Plot the test set MSE associated with the best model of each size.
+    >```r
+    >errors = rep(0, p)
+    >for (i in 1:p) {
+    >     coefs = coef(reg, id = i)
+    >     pred = as.matrix(x.test[, x_cols %in% names(coefs)]) %*% coefs[names(coefs) %in% x_cols]
+    >     errors[i] = mean((y.test - pred)^2)
+    >}
+    >png("ch6_ex11_d.png")
+    >plot(errors, ylab = "MSE de test",type="b")
+    >dev.off()
+    >```
+    >![ch6_ex11_d](ch6_ex11_d.png)  
+
+ - e) For which model size does the test set MSE take on its minimum value? Comment on your results. If it takes on its minimum value for a model containing only an intercept or a model containing all of the features, then play around with the way that you are generating the data in (a) until you come up with a scenario in which the test set MSE is minimized for an intermediate model size.
+    >```r
+    >which.min(errors)
+    ```
+    >El modelo con 19 parametros tiene un menor error.
+
+ - f) How does the model at which the test set MSE is minimized compare to the true model used to generate the data? Comment on the coefficient values.
+    >coef(reg, id = 19)
+
+ - g) Create a plot displaying ![equation5](equation5.png)
 (g) Create a plot displaying j=1(βj − βj ) for a range of values of r, where βˆjr is the jth coefficient estimate for the best model containing r coefficients. Comment on what you observe. How does this compare to the test MSE plot from (d)?
+   >```r
+   >errors = rep(0, p)
+   >l = rep(0, p)
+   >sqsm = rep(0, p)
+   >for (i in 1:p) {
+   >    coefs = coef(reg, id = i)
+   >    l[i] = length(coefs) - 1
+   >    sqsm[i] = sqrt(sum((b[x_cols %in% names(coefs)] - coefs[names(coefs) %in% x_cols])^2) +
+   >        sum(b[!(x_cols %in% names(coefs))])^2)
+   >}
+   >png("ch6_ex11_g.png")
+   >plot(x = l, y = sqsm, xlab = "No. de coeficientes", ylab = "Error")
+   >dev.off()
+   >```
+   >![ch6_ex11_g](ch6_ex11_g.png)
+
 11. We will now try to predict per capita crime rate in the Boston data set.
-- a) Try out some of the regression methods explored in this chapter, such as best subset selection, the lasso, ridge regression, and PCR. Present and discuss results for the approaches that you consider.
-- b) Propose a model (or set of models) that seem to perform well on this data set, and justify your answer. Make sure that you are evaluating model performance using validation set error, cross- validation, or some other reasonable alternative, as opposed to using training error.
-- c) Does your chosen model involve all of the features in the data set? Why or why not?
+ - a) Try out some of the regression methods explored in this chapter, such as best subset selection, the lasso, ridge regression, and PCR. Present and discuss results for the approaches that you consider.
+ - b) Propose a model (or set of models) that seem to perform well on this data set, and justify your answer. Make sure that you are evaluating model performance using validation set error, cross- validation, or some other reasonable alternative, as opposed to using training error.
+ - c) Does your chosen model involve all of the features in the data set? Why or why not?

@@ -164,3 +164,62 @@ png("ch6_ex9_g.png")
 plot(1:5,c(lm.RSS,ridge.RSS,lasso.RSS,pcr.RSS,pls.RSS),ylab="RSS",xlab="Method")
 axis(1,at = 1:5,labels=c("lm","Ridge","Lasso","PCR","PLS"))
 dev.off()
+#10
+##10_a
+p = 20
+n = 1000
+x = matrix(rnorm(n * p), n, p)
+b = rnorm(p)
+b[1] = 0
+b[7] = 0
+b[9] = 0
+b[13] = 0
+e = rnorm(p)
+y = x %*% b + e
+##10_b
+index = sample(seq(1000), 100, replace = FALSE)
+y.train = y[index, ]
+y.test = y[-index, ]
+x.train = x[index, ]
+x.test = x[-index, ]
+D.train = data.frame(x = x.train, y = y.train)
+D.test = data.frame(x = x.test, y = y.test)
+##10_c
+reg = regsubsets(y ~ ., data = D.train, nvmax = p)
+errors = rep(0, p)
+x_cols = colnames(x, do.NULL = FALSE, prefix = "x.")
+for (i in 1:p) {
+    coefs = coef(reg, id = i)
+    pred = as.matrix(x.train[, x_cols %in% names(coefs)]) %*% coefs[names(coefs) %in% x_cols]
+    errors[i] = mean((y.train - pred)^2)
+}
+png("ch6_ex10_c.png")
+plot(errors, ylab = "MSE de training", type = "b")
+dev.off()
+#10_d
+errors = rep(0, p)
+for (i in 1:p) {
+    coefs = coef(reg, id = i)
+    pred = as.matrix(x.test[, x_cols %in% names(coefs)]) %*% coefs[names(coefs) %in% x_cols]
+    errors[i] = mean((y.test - pred)^2)
+}
+png("ch6_ex11_d.png")
+plot(errors, ylab = "MSE de test",type="b")
+dev.off()
+##10_e
+which.min(errors)
+##10_f
+coef(reg, id = 19)
+##10_g
+errors = rep(0, p)
+l = rep(0, p)
+sqsm = rep(0, p)
+for (i in 1:p) {
+    coefs = coef(reg, id = i)
+    l[i] = length(coefs) - 1
+    sqsm[i] = sqrt(sum((b[x_cols %in% names(coefs)] - coefs[names(coefs) %in% x_cols])^2) +
+        sum(b[!(x_cols %in% names(coefs))])^2)
+}
+png("ch6_ex11_g.png")
+plot(x = l, y = sqsm, xlab = "No. de coeficientes", ylab = "Error")
+dev.off()
