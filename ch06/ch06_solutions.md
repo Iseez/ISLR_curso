@@ -113,32 +113,195 @@ _Iván Eduardo Sedeño Jiménez_
  - c) Write out the lasso optimization problem in this setting.
     > Minimizar la siguiente expresión:
     > ![ch6_ex5_c](ch6_ex5_c.png)  
+
  - d) Argue that in this setting, the lasso coefficients βˆ1 and βˆ2 are not unique, in other words, there are many possible solutions to the optimization problem in (c). Describe these solutions.  
     > Siguiendo el razonamiento del inciso b,  y observando la derivada con respecto a β se puede observar que
     > ![ch6_ex5_d](ch6_ex5_d.png)  
     > Recordando que dado de graficar Lasso se obtiene un diamante, graficando la optimización se obtendrán lineas paralelas al diamante, siendo solución todas los puntos en que se toquen las lineas con el diamante.
+
 6. We will now explore (6.12) and (6.13) further.
  - a) Consider (6.12) with p = 1. For some choice of y1 and λ > 0, plot (6.12) as a function of β1. Your plot should confirm that (6.12) is solved by (6.14).
+    >```r
+    >y = 2
+    >l = 2
+    >bs = seq(-5, 5, 0.1)
+    >f = (y - bs)^2 + l * bs^2
+    >est.beta = y/(1 + l)
+    >est.f = (y - est.beta)^2 + l * est.beta^2
+    >png("ch6_ex6_a.png")
+    >plot(bs, f, pch = 20, xlab = "Beta", ylab = "Optimization")
+    >points(est.beta, est.f, col = 2, pch = 4, lwd = 5, cex = est.beta)
+    >dev.off()
+    >```
+    >![ch6_ex6_a](ch6_ex6_a.png)  
+    >Se puede apreciar claramente que la función se minimiza en β = y/(1 + l)
+
  - b) Consider (6.13) with p = 1. For some choice of y1 and λ > 0, plot (6.13) as a function of β1. Your plot should confirm that (6.13) is solved by (6.15).
+   > ```r
+   >y = 2
+   >l = 2
+   >bs = seq(-5, 5, 0.01)
+   >f = (y - bs)^2 + l * abs(bs)
+   >est.beta = y - l/2
+   >est.f = (y - est.beta)^2 + l * abs(est.beta)
+   >png("ch6_ex6_b.png")
+   >plot(bs, f, pch = 20, xlab = "Beta", ylab = "Optimization")
+   >points(est.beta, est.f, col = 2, pch = 4, lwd = 5, cex = est.beta)
+   >dev.off()
+   > ```
+   >![ch6_ex6_b](ch6_ex6_b.png)  
+   > Pudiendose apreciar que la función se minimiza en β = y - l/2
+
 7. We will now derive the Bayesian connection to the lasso and ridge regression discussed in Section 6.2.2.
  - a) Suppose that yi = β0 +(Sum^p_j=1) xi,j βj +εi where ε1, . . . , εn are inde- pendent and identically distributed from a N(0,σ^2) distribution. Write out the likelihood for the data.
+    > __Complete__
+
  - b) Assume the following prior for β: β1, . . . , βp are independent
 and identically distributed according to a double-exponential
 distribution with mean 0 and common scale parameter b: i.e.
 p(β) = 1/2b exp(−|β|/b). Write out the posterior for β in this 2b setting.
+    > __Complete__
+
  - c) Argue that the lasso estimate is the mode for β under this pos- terior distribution.
+    > __Complete__
+
  - d) Now assume the following prior for β: β1, . . . , βp are independent and identically distributed according to a normal distribution with mean zero and variance c. Write out the posterior for β in this setting.
+    > __Complete__
+
  - e) Argue that the ridge regression estimate is both the mode and the mean for β under this posterior distribution.
 
 ## Practica
 8. In this exercise, we will generate simulated data, and will then use this data to perform best subset selection.
  - a) Use the ``rnorm()`` function to generate a predictor X of length n = 100, as well as a noise vector ε of length n = 100.
+    > ```r
+    >set.seed(1)
+    >x <- rnorm(100)
+    >e <- rnorm(100)
+    >```
+
  - b) Generate a response vector Y of length n = 100 according to the model  
    ![equation3](equation3.png)  
    where β0, β1, β2, and β3 are constants of your choice.
- - c) Use the ``regsubsets()`` function to perform best subset selection in order to choose the best model containing the predictors X,X2,...,X10. What is the best model obtained according to Cp, BIC, and adjusted R2? Show some plots to provide evidence for your answer, and report the coefficients of the best model ob- tained. Note you will need to use the ``data.frame()`` function to create a single data set containing both X and Y .
- - d) Repeat (c), using forward stepwise selection and also using back- wards stepwise selection. How does your answer compare to the results in (c)?
+    > ```r
+    > y <- 5 + 4*x - 3*x^2 + 2*x^3 + e
+    > png("ch6_ex8_b.png")
+    > plot(x,y)
+    > dev.off()
+    > ```
+    > ![ch6_ex8_b](ch6_ex8_b.png)  
+
+ - c) Use the ``regsubsets()`` function to perform best subset selection in order to choose the best model containing the predictors X,X2,...,X10. What is the best model obtained according to Cp, BIC, and adjusted R2? Show some plots to provide evidence for your answer, and report the coefficients of the best model obtained. Note you will need to use the ``data.frame()`` function to create a single data set containing both X and Y .
+    > ```r
+    >library(leaps)
+    >data = data.frame(y = y, x = x)
+    >mod = regsubsets(y ~ poly(x, 10, raw = T), data = data, nvmax = 10)
+    >mod.summary = summary(mod)
+    > ```
+    >Mejor cp:
+    >```r
+    >which.min(mod.summary$cp)
+    >png("ch6_ex8_c1.png")
+    >plot(mod.summary$cp, xlab = "Subset Size", ylab = "Cp", pch = 20, type = "l")
+    >points(3, mod.summary$cp[3], pch = 4, col = 2, lwd = 2)
+    >dev.off()
+    >```
+    >![ch6_ex8_c1](ch6_ex8_c1.png)  
+    >Mejor BIC:
+    >```r
+    >which.min(mod.summary$bic)
+    >png("ch6_ex8_c2.png")
+    >plot(mod.summary$bic, xlab = "Subset Size", ylab = "BIC", pch = 20, type = "l")
+    >points(3, mod.summary$bic[3], pch = 4, col = 2, lwd = 2)
+    >dev.off()
+    >```
+    >![ch6_ex8_c2](ch6_ex8_c2.png)  
+    >Mejor R^2:
+    >```r
+    >which.max(mod.summary$adjr2)
+    >png("ch6_ex8_c3.png")
+    >plot(mod.summary$adjr2, xlab = "Subset Size", ylab = "Adjusted R^2", pch = 20, type = "l")
+    >points(5, mod.summary$adjr2[5], pch = 4, col = 2, lwd = 2)
+    >dev.off()
+    >```
+    >![ch6_ex8_c3](ch6_ex8_c3.png)  
+    >El mejor modelo, viendo el cp y el BIC es el de grado 3, sin embargo, viendo el r^2 el mejor modelo es el de grado 5, pero comparadndolo con el de grado 3 la diferencia no es mucha, menos del 5%
+
+ - d) Repeat (c), using forward stepwise selection and also using backwards stepwise selection. How does your answer compare to the results in (c)?
+    >```r
+    >mod.fwd = regsubsets(y ~ poly(x, 10, raw = T), data = data, nvmax = 10,method = "forward")
+    >mod.bwd = regsubsets(y ~ poly(x, 10, raw = T), data = data, nvmax = 10,method = "backward")
+    >fwd.summary = summary(mod.fwd)
+    >bwd.summary = summary(mod.bwd)
+    >```
+    >El mejor cp:
+    >```r
+    >which.min(fwd.summary$cp)
+    >which.min(bwd.summary$cp)
+    >```
+    >El mejor bic:
+    >```r
+    >which.min(fwd.summary$bic)
+    >which.min(bwd.summary$bic)
+    >```
+    >El mejor R^2:
+    >```r
+    >which.max(fwd.summary$adjr2)
+    >which.max(bwd.summary$adjr2)
+    >```
+    >Comparando backward selection (derecha) y forward selection (izquierda).  
+    >```r
+    >png("ch6_ex8_d.png")
+    >par(mfrow = c(3, 2))
+    >plot(fwd.summary$cp, xlab = "Subset Size", ylab = "Forward Cp", pch = 20, type = "l")
+    >points(3, fwd.summary$cp[3], pch = 4, col = 2, lwd = 2)
+    >plot(bwd.summary$cp, xlab = "Subset Size", ylab = "Backward Cp", pch = 20, type = "l")
+    >points(3, bwd.summary$cp[3], pch = 4, col = 2, lwd = 2)
+    >plot(fwd.summary$bic, xlab = "Subset Size", ylab = "Forward BIC", pch = 20,
+   >     type = "l")
+    >points(3, fwd.summary$bic[3], pch = 4, col = 2, lwd = 2)
+    >plot(bwd.summary$bic, xlab = "Subset Size", ylab = "Backward BIC", pch = 20,
+   >     type = "l")
+    >points(3, bwd.summary$bic[3], pch = 4, col = 2, lwd = 2)
+    >plot(fwd.summary$adjr2, xlab = "Subset Size", ylab = "Forward Adjusted R^2",
+   >     pch = 20, type = "l")
+    >points(3, fwd.summary$adjr2[3], pch = 4, col = 2, lwd = 2)
+    >plot(bwd.summary$adjr2, xlab = "Subset Size", ylab = "Backward Adjusted R^2",
+   >     pch = 20, type = "l")
+    >points(4, bwd.summary$adjr2[4], pch = 4, col = 2, lwd = 2)
+    >dev.off()
+    >```
+    >![ch6_ex8_d](ch6_ex8_d.png)  
+    > Con selección hacia adelante parece ser que el mejor modelo es el de grado 3, mientras que el mejor en selección hacia atras es el de grado 5, esto viendo solo cp y BIC, en el caso de R^2 lo mejor son los modelos de grado 6 y 7 respectivamente.  
+
  - e) Now fit a lasso model to the simulated data, again using X,X2, . . . , X 10 as predictors. Use cross-validation to select the optimal value of λ. Create plots of the cross-validation error as a function of λ. Report the resulting coefficient estimates, and discuss the results obtained.
+    >```r
+    >library(glmnet)
+    >xmat = model.matrix(y ~ poly(x, 10, raw = T), data = data)[, -1]
+    >mod.lasso = cv.glmnet(xmat, y, alpha = 1)
+    >best.lambda = mod.lasso$lambda.min
+    >png("ch6_ex8_e.png")
+    >plot(mod.lasso)
+    >dev.off()
+    >```
+    >![ch6_ex8_e](ch6_ex8_e.png)  
+    >```r
+    >best.model = glmnet(xmat, y, alpha = 1)
+    >predict(best.model, s = best.lambda, type = "coefficients")
+    >```  
+    >11 x 1 sparse Matrix of class "dgCMatrix"  
+    >                                1  
+    >(Intercept)             4.775681e+00
+    >poly(x, 10, raw = T)1   4.029583e+00
+    >poly(x, 10, raw = T)2  -2.770848e+00
+    >poly(x, 10, raw = T)3   2.017968e+00
+    >poly(x, 10, raw = T)4   .           
+    >poly(x, 10, raw = T)5   .           
+    >poly(x, 10, raw = T)6   .           
+    >poly(x, 10, raw = T)7   .           
+    >poly(x, 10, raw = T)8  -1.216931e-03
+    >poly(x, 10, raw = T)9   .           
+    >poly(x, 10, raw = T)10 -1.978252e-05
+
  - f) Now generate a response vector Y according to the model  
    ![equation4](equation4.png)  
 and perform best subset selection and the lasso. Discuss the results obtained.
