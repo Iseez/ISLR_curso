@@ -437,7 +437,7 @@ and perform best subset selection and the lasso. Discuss the results obtained.
    >pcr.RSS = mean((D.test$Apps - pred.pcr)^2)
    >pcr.RSS
    >```
-   >El RSS usando recresión de componentes principales es de:
+   >El RSS usando regresión de componentes principales es de:
    >```
    >3056660.67306315
    >```
@@ -493,6 +493,7 @@ We will now explore this in a simulated data set.
     >x.train = x[index, ]
     >x.test = x[-index, ]
     >```
+
  - c) Perform best subset selection on the training set, and plot the training set MSE associated with the best model of each size.
     >```r
     >>reg = regsubsets(y ~ ., data = D.train, nvmax = p)
@@ -552,5 +553,105 @@ We will now explore this in a simulated data set.
 
 11. We will now try to predict per capita crime rate in the Boston data set.
  - a) Try out some of the regression methods explored in this chapter, such as best subset selection, the lasso, ridge regression, and PCR. Present and discuss results for the approaches that you consider.
- - b) Propose a model (or set of models) that seem to perform well on this data set, and justify your answer. Make sure that you are evaluating model performance using validation set error, cross- validation, or some other reasonable alternative, as opposed to using training error.
+    >```r
+    >library(MASS)
+    >index <- sample(1:nrow(Boston), nrow(Boston)/2)
+    >D.train <- Boston[index,]
+    >D.test <- Boston[-index,]
+    >##Usando Ridge
+    >mat.train = model.matrix(crim~., data=D.train)
+    >mat.test = model.matrix(crim~., data=D.test)
+    >lambda = 10 ^ seq(4, -2, length=100)
+    >mod.ridge = cv.glmnet(mat.train, D.train$crim, alpha=0, lambda=lambda)
+    >png("ch6_ex11_a1.png")
+    >plot(mod.ridge)
+    >dev.off()
+    >lambda.best = mod.ridge$lambda.min
+    >lambda.best
+    >pred.ridge = predict(mod.ridge, newx=mat.test, s=lambda.best)
+    >ridge.RSS = mean((D.test$crim - pred.ridge)^2)
+    >ridge.RSS
+    >##Usando Lasso
+    >mod.lasso = cv.glmnet(mat.train, D.train$crim, alpha=1, lambda=lambda)
+    >png("ch6_ex11_a2.png")
+    >plot(mod.lasso)
+    >dev.off()
+    >lambda.best = mod.lasso$lambda.min
+    >lambda.best
+    >pred.lasso = predict(mod.lasso, newx=mat.test, s=lambda.best)
+    >lasso.RSS = mean((D.test$crim - pred.lasso)^2)
+    >lasso.RSS
+    >##Usando PCR
+    >pcr.fit = pcr(crim~., data=D.train, scale=TRUE, validation="CV")
+    >png("ch6_ex11_a3.png")
+    >validationplot(pcr.fit, val.type="MSEP")
+    >dev.off()
+    >pred.pcr = predict(pcr.fit, D.test, ncomp=10)
+    >pcr.RSS = mean((D.test$crim - pred.pcr)^2)
+    >pcr.RSS
+    >```
+    >Utilizando Ridge:  
+    >![ch6_ex11_a1](ch6_ex11_a1.png)  
+    >La mejor lambda tiene un valor de 0.0811130830789687  
+    >Y el RSS de predicción fue de 71.3609889352909
+    >
+    >Utilizando Lasso:  
+    >![ch6_ex11_a2](ch6_ex11_a2.png)  
+    >La mejor lambda tiene un valor de 0.0403701725859655  
+    >Y el RSS de predicción fue de 71.7576550347397
+    >Utilizando PCR:  
+    >![ch6_ex11_a3](ch6_ex11_a3.png)
+    >El RSS de predicción fue 73.2728639965783  
+
+ - b) Propose a model (or set of models) that seem to perform well on this data set, and justify your answer. Make sure that you are evaluating model performance using validation set error, crossvalidation, or some other reasonable alternative, as opposed to using training error.
+    >Utilizando el RSS como factor para determinar que modelo es bueno, pareciera ser que Ridge nos da buenos resultados, segudio de Lasso, teniendo un RSS ligeramente mayor, el modelo de PCR sí tiene un RSS más considerable
+    >Sin embargo Lasso no usa todas las variables del dataset.
+    >```r
+    >coef(mod.ridge)
+    >```
+    >```
+    >15 x 1 sparse Matrix of class "dgCMatrix"
+    >                      1
+    >(Intercept) -0.60950595
+    >(Intercept)  .         
+    >zn           .         
+    >indus        .         
+    >chas         .         
+    >nox          .         
+    >rm           .         
+    >age          .         
+    >dis          .         
+    >rad          0.33575954
+    >tax          .         
+    >ptratio      .         
+    >black        .         
+    >lstat        0.04745276
+    >medv         .         
+    >```
+    >Mientras que Ridge sí.
+    >```r
+    >coef(mod.ridge)
+    >```
+    >```
+    >15 x 1 sparse Matrix of class "dgCMatrix"
+    >                       1
+    >(Intercept) -1.394131369
+    >(Intercept)  .          
+    >zn           0.002441361
+    >indus        0.028798170
+    >chas        -0.277294974
+    >nox          2.575961670
+    >rm          -0.231943989
+    >age          0.007732207
+    >dis         -0.150382630
+    >rad          0.125444669
+    >tax          0.004475987
+    >ptratio      0.114305183
+    >black       -0.002915327
+    >lstat        0.067912330
+    >medv        -0.027418998
+    >```
+    >Por lo que escogería el modelo obtenido mediante Lasso
+
  - c) Does your chosen model involve all of the features in the data set? Why or why not?
+    >No, ya que lasso además hace selección de variable

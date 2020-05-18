@@ -136,7 +136,7 @@ pred.ridge = predict(mod.ridge, newx=mat.test, s=lambda.best)
 ridge.RSS = mean((D.test$Apps - pred.ridge)^2)
 ridge.RSS
 ##9_d
-mod.lasso = cv.glmnet(mat.train, D.train[, "Apps"], alpha=1, lambda=lambda)
+mod.lasso = cv.glmnet(mat.train, D.train$Apps, alpha=1, lambda=lambda)
 lambda.best = mod.lasso$lambda.min
 lambda.best
 pred.lasso = predict(mod.lasso, newx=mat.test, s=lambda.best)
@@ -223,3 +223,43 @@ for (i in 1:p) {
 png("ch6_ex11_g.png")
 plot(x = l, y = sqsm, xlab = "No. de coeficientes", ylab = "Error")
 dev.off()
+##11
+##11_a
+library(MASS)
+index <- sample(1:nrow(Boston), nrow(Boston)/2)
+D.train <- Boston[index,]
+D.test <- Boston[-index,]
+##Usando Ridge
+mat.train = model.matrix(crim~., data=D.train)
+mat.test = model.matrix(crim~., data=D.test)
+lambda = 10 ^ seq(4, -2, length=100)
+mod.ridge = cv.glmnet(mat.train, D.train$crim, alpha=0, lambda=lambda)
+png("ch6_ex11_a1.png")
+plot(mod.ridge)
+dev.off()
+lambda.best = mod.ridge$lambda.min
+lambda.best
+pred.ridge = predict(mod.ridge, newx=mat.test, s=lambda.best)
+ridge.RSS = mean((D.test$crim - pred.ridge)^2)
+ridge.RSS
+##Usando Lasso
+mod.lasso = cv.glmnet(mat.train, D.train$crim, alpha=1, lambda=lambda)
+png("ch6_ex11_a2.png")
+plot(mod.lasso)
+dev.off()
+lambda.best = mod.lasso$lambda.min
+lambda.best
+pred.lasso = predict(mod.lasso, newx=mat.test, s=lambda.best)
+lasso.RSS = mean((D.test$crim - pred.lasso)^2)
+lasso.RSS
+##Usando PCR
+pcr.fit = pcr(crim~., data=D.train, scale=TRUE, validation="CV")
+png("ch6_ex11_a3.png")
+validationplot(pcr.fit, val.type="MSEP")
+dev.off()
+pred.pcr = predict(pcr.fit, D.test, ncomp=10)
+pcr.RSS = mean((D.test$crim - pred.pcr)^2)
+pcr.RSS
+##11_c
+coef(mod.ridge)
+coef(mod.lasso)
