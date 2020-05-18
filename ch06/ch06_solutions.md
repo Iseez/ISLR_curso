@@ -288,6 +288,7 @@ p(β) = 1/2b exp(−|β|/b). Write out the posterior for β in this 2b setting.
     >best.model = glmnet(xmat, y, alpha = 1)
     >predict(best.model, s = best.lambda, type = "coefficients")
     >```  
+    >```
     >11 x 1 sparse Matrix of class "dgCMatrix"  
     >                                1  
     >(Intercept)             4.775681e+00
@@ -301,6 +302,7 @@ p(β) = 1/2b exp(−|β|/b). Write out the posterior for β in this 2b setting.
     >poly(x, 10, raw = T)8  -1.216931e-03
     >poly(x, 10, raw = T)9   .           
     >poly(x, 10, raw = T)10 -1.978252e-05
+    >```
 
  - f) Now generate a response vector Y according to the model  
    ![equation4](equation4.png)  
