@@ -303,18 +303,172 @@ p(β) = 1/2b exp(−|β|/b). Write out the posterior for β in this 2b setting.
     >poly(x, 10, raw = T)9   .           
     >poly(x, 10, raw = T)10 -1.978252e-05
     >```
+    >Lasso escoge un modelo con 5 variables, aunque dos de ellas tienen un valor de casi 0, los coeficientes son acertados aproximadamente.
 
  - f) Now generate a response vector Y according to the model  
    ![equation4](equation4.png)  
 and perform best subset selection and the lasso. Discuss the results obtained.
+    >```r
+    >y2 = 1 + 2 * x^7 + e
+    >data = data.frame(y = y2, x = x)
+    >mod = regsubsets(y2 ~ poly(x, 10, raw = T), data = data, nvmax = 10)
+    >mod.summary = summary(mod)
+    >```
+    >Mejor cp:
+    >```r
+    >which.min(mod.summary$cp)
+    >```
+    >Mejor BIC:
+    >```r
+    >which.min(mod.summary$bic)
+    >```
+    >Mejor R^2:
+    >```r
+    >which.max(mod.summary$adjr2)
+    >```
+    >Los mejores modelos según del cp y el R^2 son de grado 3, en cuestión de BIC el mejor modelo es de grado 1.  
+    >Usando lasso:
+    >```r
+    >xmat = model.matrix(y2 ~ poly(x, 10, raw = T), data = data)[, -1]
+    >mod.lasso = cv.glmnet(xmat, y2, alpha = 1)
+    >best.lambda = mod.lasso$lambda.min
+    >```
+    >```
+    > 3.63208058954092
+    >```
+    >```r
+    >best.model = glmnet(xmat, y2, alpha = 1)
+    >predict(best.model, s = best.lambda, type = "coefficients")
+    >```
+    >```
+    >11 x 1 sparse Matrix of class "dgCMatrix"
+    >                                1
+    >(Intercept)            1.48410467
+    >poly(x, 10, raw = T)1  .         
+    >poly(x, 10, raw = T)2  .         
+    >poly(x, 10, raw = T)3  .         
+    >poly(x, 10, raw = T)4  .         
+    >poly(x, 10, raw = T)5  0.01001058
+    >poly(x, 10, raw = T)6  .         
+    >poly(x, 10, raw = T)7  1.94047390
+    >poly(x, 10, raw = T)8  .         
+    >poly(x, 10, raw = T)9  .         
+    >poly(x, 10, raw = T)10 .         
+    >
+    >```
+    >Lasso escoge un modelo con 2 variables, una de grado 5 y otra de grado 7, el intercepto no es tan cercano al adecuado pero el coeficiente de grado 7 es acertado; el coeficiente de grado 5 es casi 0 por lo que podríamos eliminarlo.
+
 9. In this exercise, we will predict the number of applications received using the other variables in the ``College`` data set.
  - a) Split the data set into a training set and a test set.
+    >```r
+    >library(ISLR)
+    >index <- sample(1:nrow(College), nrow(College)/2)
+    >D.train <- College[index,]
+    >D.test <- College[-index,]
+    >```
+
  - b) Fit a linear model using least squares on the training set, and report the test error obtained.
- - c) Fit a ridge regression model on the training set, with λ chosen by cross-validation. Report the test error obtained.
+    >```r
+    >lm.fit = lm(Apps~., data=D.train)
+    >lm.pred = predict(lm.fit,D.test)
+    >lm.RSS = mean((D.test$Apps - lm.pred)^2)
+    >lm.RSS
+    >```
+    >El RSS es de:
+    >```
+    >1410244.6662527
+    >```
+
+ - c) Fit a ridge regression model on the training set, with λ chosen by crossvalidation. Report the test error obtained.
+    >```r
+    >mat.train = model.matrix(Apps~., data=D.train)
+    >mat.test = model.matrix(Apps~., data=D.test)
+    >lambda = 10 ^ seq(4, -2, length=100)
+    >mod.ridge = cv.glmnet(mat.train, D.train$Apps, alpha=0, lambda=lambda)
+    >lambda.best = mod.ridge$lambda.min
+    >lambda.best
+    >```
+    >La mejor lambda es:
+    >```
+    >9.3260334688322
+    >```
+    >```r
+    >pred.ridge = predict(mod.ridge, newx=mat.test, s=lambda.best)
+    >ridge.RSS = mean((D.test$Apps - pred.ridge)^2)
+    >ridge.RSS
+    >```
+    >El RSS de test para ridge es de:
+    >```
+    >1465222.40612567
+    >```
+    >Notese que este tiene un valor mayor al obtenido por el método de mínimos cuadrados
+
  - d) Fit a lasso model on the training set, with λ chosen by cross- validation. Report the test error obtained, along with the number of non-zero coefficient estimates.
- - e) Fit a PCR model on the training set, with M chosen by cross- validation. Report the test error obtained, along with the value of M selected by cross-validation.
- - f) Fit a PLS model on the training set, with M chosen by cross- validation. Report the test error obtained, along with the value of M selected by cross-validation.
- - g) Comment on the results obtained. How accurately can we pre- dict the number of college applications received? Is there much difference among the test errors resulting from these five ap- proaches?
+   >```r
+   >mod.lasso = cv.glmnet(mat.train, D.train[, "Apps"], alpha=1, lambda=lambda)
+   >lambda.best = mod.lasso$lambda.min
+   >lambda.best
+   >```
+   >En este caso la mejor lambda es de:
+   >```
+   >12.3284673944207
+   >```
+   >```r
+   >pred.lasso = predict(mod.lasso, newx=mat.test, s=lambda.best)
+   >lasso.RSS = mean((D.test$Apps - pred.lasso)^2)
+   >lasso.RSS
+   >```
+   >En este caso el RSS de predicción es de:
+   >```
+   >1490030.64226956
+   >```
+   >Esta vez se obtuvo un RSS incluso mayor al modelo obtenido con Ridge.
+
+ - e) Fit a PCR model on the training set, with M chosen by crossvalidation. Report the test error obtained, along with the value of M selected by cross-validation.
+   >```r
+   >library(pls)
+   >pcr.fit = pcr(Apps~., data=D.train, scale=TRUE, validation="CV")
+   >png("ch6_ex9_f.png")
+   >validationplot(pcr.fit, val.type="MSEP")
+   >dev.off()
+   >```
+   >![ch6_ex9_e](ch6_ex9_e.png)
+   >```r
+   >pred.pcr = predict(pcr.fit, D.test, ncomp=10)
+   >pcr.RSS = mean((D.test$Apps - pred.pcr)^2)
+   >pcr.RSS
+   >```
+   >El RSS usando recresión de componentes principales es de:
+   >```
+   >3056660.67306315
+   >```
+
+ - f) Fit a PLS model on the training set, with M chosen by crossvalidation. Report the test error obtained, along with the value of M selected by cross-validation.
+   >```r
+   >pls.fit = plsr(Apps~., data=D.train, scale=TRUE, validation="CV")
+   >png("ch6_ex9_f.png")
+   >validationplot(pls.fit, val.type="MSEP")
+   >dev.off()
+   >```
+   >![ch6_ex9_f](ch6_ex9_f.png)
+   > ```r
+   >pred.pls = predict(pls.fit, D.test, ncomp=10)
+   >pls.RSS = mean((D.test$Apps - pred.pls)^2)
+   >pls.RSS
+   >```
+   >El RSS obtenido por PLS es:
+   >```
+   >1418007.48365563
+   >```
+ - g) Comment on the results obtained. How accurately can we predict the number of college applications received? Is there much difference among the test errors resulting from these five ap- proaches?
+   >```r
+   >png("ch6_ex9_g.png")
+   >plot(1:5,c(lm.RSS,ridge.RSS,lasso.RSS,pcr.RSS,pls.RSS),ylab="RSS",xlab="Method")
+   >axis(1,at = 1:5,labels=c("lm","Ridge","Lasso","PCR","PLS"))
+   >dev.off()
+   >```
+   >![ch6_ex9_g](ch6_ex9_g.png)
+
 10. We have seen that as the number of features used in a model increases, the training error will necessarily decrease, but the test error may not.  
    We will now explore this in a simulated data set.
 - a) Generate a data set with p = 20 features, n = 1,000 observa- tions, and an associated quantitative response vector generated according to the model Y = Xβ+ε, where β has some elements that are exactly equal to zero.

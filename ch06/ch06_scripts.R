@@ -97,3 +97,70 @@ plot(mod.lasso)
 dev.off()
 best.model = glmnet(xmat, y, alpha = 1)
 predict(best.model, s = best.lambda, type = "coefficients")
+
+## 6_f
+y2 = 1 + 2 * x^7 + e
+data = data.frame(y = y2, x = x)
+mod = regsubsets(y2 ~ poly(x, 10, raw = T), data = data, nvmax = 10)
+mod.summary = summary(mod)
+which.min(mod.summary$cp)
+which.min(mod.summary$bic)
+which.max(mod.summary$adjr2)
+
+xmat = model.matrix(y2 ~ poly(x, 10, raw = T), data = data)[, -1]
+mod.lasso = cv.glmnet(xmat, y2, alpha = 1)
+best.lambda = mod.lasso$lambda.min
+best.model = glmnet(xmat, y2, alpha = 1)
+predict(best.model, s = best.lambda, type = "coefficients")
+
+
+##9
+##9_a
+library(ISLR)
+index <- sample(1:nrow(College), nrow(College)/2)
+D.train <- College[index,]
+D.test <- College[-index,]
+##9_b
+lm.fit = lm(Apps~., data=D.train)
+lm.pred = predict(lm.fit,D.test)
+lm.RSS = mean((D.test$Apps - lm.pred)^2)
+lm.RSS
+##9_c
+mat.train = model.matrix(Apps~., data=D.train)
+mat.test = model.matrix(Apps~., data=D.test)
+lambda = 10 ^ seq(4, -2, length=100)
+mod.ridge = cv.glmnet(mat.train, D.train$Apps, alpha=0, lambda=lambda)
+lambda.best = mod.ridge$lambda.min
+lambda.best
+pred.ridge = predict(mod.ridge, newx=mat.test, s=lambda.best)
+ridge.RSS = mean((D.test$Apps - pred.ridge)^2)
+ridge.RSS
+##9_d
+mod.lasso = cv.glmnet(mat.train, D.train[, "Apps"], alpha=1, lambda=lambda)
+lambda.best = mod.lasso$lambda.min
+lambda.best
+pred.lasso = predict(mod.lasso, newx=mat.test, s=lambda.best)
+lasso.RSS = mean((D.test$Apps - pred.lasso)^2)
+lasso.RSS
+##9_e
+library(pls)
+pcr.fit = pcr(Apps~., data=D.train, scale=TRUE, validation="CV")
+png("ch6_ex9_e.png")
+validationplot(pcr.fit, val.type="MSEP")
+dev.off()
+pred.pcr = predict(pcr.fit, D.test, ncomp=10)
+pcr.RSS = mean((D.test$Apps - pred.pcr)^2)
+pcr.RSS
+##9_f
+pls.fit = plsr(Apps~., data=D.train, scale=TRUE, validation="CV")
+png("ch6_ex9_f.png")
+validationplot(pls.fit, val.type="MSEP")
+dev.off()
+pred.pls = predict(pls.fit, D.test, ncomp=10)
+pls.RSS = mean((D.test$Apps - pred.pls)^2)
+pls.RSS
+##9_g
+png("ch6_ex9_g.png")
+plot(1:5,c(lm.RSS,ridge.RSS,lasso.RSS,pcr.RSS,pls.RSS),ylab="RSS",xlab="Method")
+axis(1,at = 1:5,labels=c("lm","Ridge","Lasso","PCR","PLS"))
+dev.off()
