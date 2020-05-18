@@ -468,6 +468,7 @@ and perform best subset selection and the lasso. Discuss the results obtained.
    >dev.off()
    >```
    >![ch6_ex9_g](ch6_ex9_g.png)
+   >Parece ser que el menor RSS se alacanza con mínimos cuadrados, sin embargo no hay mucha diferencia entre modelos, exceptuando PCR, que tiene un RSS muy alto comparandolo con el resto de los modelos.
 
 10. We have seen that as the number of features used in a model increases, the training error will necessarily decrease, but the test error may not.  
    We will now explore this in a simulated data set.
